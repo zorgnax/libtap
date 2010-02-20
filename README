@@ -1,0 +1,137 @@
+NAME
+====
+
+libtap - Write tests in C
+
+SYNOPSIS
+========
+
+    #include <tap.h>
+    
+    int foo () {return 3;}
+    
+    int main () {
+        plan(4);
+        ok(foo() == 3);
+        ok(foo() == 55);
+        ok(foo() > 2, "foo returns a number greater than 2");
+        ok(foo() <= 8732, "foo is less than or equal to %d", 8732);
+        return exit_status();
+    }
+
+results in:
+
+    1..4
+    ok 1
+    not ok 2
+    #   Failed test at synopsis.c line 8.
+    ok 3 - foo returns a number greater than 2
+    ok 4 - foo is less than or equal to 8732
+    # Looks like you failed 1 test of 4 run.
+
+
+DESCRIPTION
+===========
+
+tap is an easy to read and easy to write way of creating tests for your
+software. This library creates functions that can be used to generate it for
+your C programs. It is mostly based on the Test::More Perl module.
+
+FUNCTIONS
+=========
+
+-   plan(tests)
+-   plan(NO_PLAN)
+    
+    Use this to start a series of tests. When you know how many tests there 
+    will be, you can put a number as a number of tests you expect to run. If 
+    you do not know how many tests there will be, you can use plan(NO_PLAN)
+    or not call this function. When you pass it a number of tests to run, a
+    message similar to the following will appear in the output:
+    
+        1..5
+
+-   ok(test)
+-   ok(test, fmt, ...)
+
+    Specify a test. the test can be any statement returning a true or false
+    value. You may optionally pass a format string describing the test.
+    
+        ok(r = reader_new("Of Mice and Men"), "create a new reader");
+        ok(reader_go_to_page(r, 55), "can turn the page");
+        ok(r->page == 55, "page turned to the right one");
+    
+    Should print out:
+    
+        ok 1 - create a new reader
+        ok 2 - can turn the page
+        ok 3 - page turned to the right one
+    
+    On failure, a diagnostic message will be printed out.
+
+        not ok 3 - page turned to the right one
+        #   Failed test 'page turned to the right one'
+        #   at reader.c line 13.
+
+-   pass()
+-   pass(fmt, ...)
+-   fail()
+-   fail(fmt, ...)
+
+    Speciy that a test succeeded or failed. Use these when the statement is
+    longer than you can fit into the argument given to an ok() test.
+
+-   dies_ok(code)
+-   dies_ok(code, fmt, ...)
+-   lives_ok(code)
+-   lives_ok(code, fmt, ...)
+
+    tests whether the given code causes your program to exit. The code gets
+    passed to a macro that will test it in a forked process. If the code
+    succeeds it will be executed in the parent process. You can test things 
+    like passing a function a null pointer and make sure it doesnt 
+    dereference it and crash.
+    
+        dies_ok({abort();}, "abort does close your program");
+        dies_ok({int x = 0/0;}, "divide by zero crash");
+        double d = 0;
+        lives ok({d = pow(3.0, 5.0)}, "nothing wrong with taking 3**5");
+        ok(d > pow(3.0, 4.0), "3**5 is greater than 3**4");
+
+-   exit_status()
+
+    Summarizes the tests that occurred. If there was no plan, it will print
+    out the number of tests as.
+    
+        1..5
+    
+    it will also exit with EXIT_SUCCESS or EXIT_FAILURE depending on whether
+    there were any failures. If there was a plan and the number of tests are 
+    not equal to the expected number, it will exit with a failure and print a
+    message about it. It will also print a diagnostic message about how many
+    failures there were.
+    
+        # Looks like you failed 2 tests of 3 run.
+
+-   note(fmt, ...)
+-   diag(fmt, ...)
+
+    print out a message to the tap output. note prints to stdout and diag
+    prints to stderr. Each line is preceeded by a "# " so that you know its a 
+    diagnostic message.
+    
+        note("This is\na note\nto describe\nsomething.");
+    
+    prints:
+    
+        # This is
+        # a note
+        # to describe
+        # something
+    
+    ok() and these functions return ints so you can use them like:
+    
+        ok(1) && note("yo!");
+        ok(0) || diag("I have no idea what just happened");
+
+
