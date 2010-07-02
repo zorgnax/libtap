@@ -14,7 +14,7 @@ int  ok_at_loc    (const char *file, int line, int test, const char *fmt, ...);
 int  diag         (const char *fmt, ...);
 int  note         (const char *fmt, ...);
 int  exit_status  (void);
-void skippy       (int test, const char *fmt, ...);
+void skippy       (int n, const char *fmt, ...);
 void ctodo        (int ignore, const char *fmt, ...);
 void cendtodo     ();
 
@@ -26,7 +26,7 @@ void cendtodo     ();
 
 #ifdef _WIN32
 #   define dies_ok_common(code, for_death, ...) \
-        ok(1, "# SKIP unable to test if code dies on windows");
+        skippy(1, "Death detection is not supported on MSWin32")
 #else
 #   include <unistd.h>
 #   include <sys/types.h>

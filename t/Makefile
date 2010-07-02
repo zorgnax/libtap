@@ -13,6 +13,9 @@ O2 = diesok$(_O)
 O3 = notediag$(_O)
 O4 = skip$(_O)
 O5 = todo$(_O)
+O = $(O1) $(O2) $(O3) $(O4) $(O5)
+
+$(O): ../$(TAPLIB) ../tap.h
 
 .PHONY: all
 all: $(X) ../$(TAPLIB)

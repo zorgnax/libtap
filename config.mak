@@ -3,7 +3,7 @@ GNU = 1
 MAKE = make
 
 ifdef GNU
-	CFLAGS = -g -Wall
+	CFLAGS = -g -Wall -D_WIN32
 	CCFLAGS = -c
 	CCOUT = -o 
 	CLOUT = -o 
