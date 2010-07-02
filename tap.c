@@ -6,6 +6,7 @@
 static int expected_tests = NO_PLAN;
 static int failed_tests;
 static int current_test;
+static char *todo_mesg = NULL;
 
 void plan (int tests) {
     expected_tests = tests;
@@ -29,17 +30,24 @@ int ok_at_loc (const char *file, int line, int test, const char *fmt, ...) {
         name = vstrdupf(fmt, args);
         va_end(args);
     }
-    printf("%sok %d%s%s\n",
-        test ? "" : "not ",
-        ++current_test,
-        *name ? " - " : "",
-        name);
+    printf("%sok %d", test ? "" : "not ", ++current_test);
+    if (*name)
+        printf(" - %s", name);
+    if (todo_mesg) {
+        printf(" # TODO");
+        if (*todo_mesg)
+            printf(" %s", todo_mesg);
+    }
+    printf("\n");
     if (!test) {
         if (*name)
-            diag("  Failed test '%s'\n  at %s line %d.", name, file, line);
+            diag("  Failed%s test '%s'\n  at %s line %d.",
+                todo_mesg ? " (TODO)" : "", name, file, line);
         else
-            diag("  Failed test at %s line %d.", file, line);
-        failed_tests++;
+            diag("  Failed%s test at %s line %d.",
+                todo_mesg ? " (TODO)" : "", file, line);
+        if (!todo_mesg)
+            failed_tests++;
     }
     if (fmt)
         free(name);
@@ -114,6 +122,18 @@ void skippy (int n, const char *fmt, ...) {
     free(why);
 }
 
+void ctodo (int ignore, const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    todo_mesg = vstrdupf(fmt, args);
+    va_end(args);
+}
+
+void cendtodo () {
+    free(todo_mesg);
+    todo_mesg = NULL;
+}
+
 #ifndef _WIN32
 #   include <sys/mman.h>
     /* Create a shared memory int to keep track of whether a piece of code 
@@ -121,13 +141,11 @@ void skippy (int n, const char *fmt, ...) {
     int tap_test_died (int status) {
         static int *test_died = NULL;
         int prev;
-
         if (!test_died) {
             test_died = mmap(0, sizeof (int), PROT_READ | PROT_WRITE,
                              MAP_SHARED | MAP_ANONYMOUS, -1, 0);
             *test_died = 0;
         }
-        
         prev = *test_died;
         *test_died = status;
         return prev;

@@ -1,11 +1,7 @@
 #include "../tap.h"
 
 int main () {
-    plan(11);
-    
-    ok(1, "foo");
-    ok(1, "bar");
-    ok(1, "baz");
+    plan(8);
     
     skip(0, 3, "%s cannot fork", "windows");
     ok(1, "quux");

@@ -134,20 +134,35 @@ FUNCTIONS
         ok(1) && note("yo!");
         ok(0) || diag("I have no idea what just happened");
 
--   skip(test, n, why, ...)
+-   skip(test, n, fmt, ...)
 -   endskip
 
     Skip a series of n tests if test is true. You may give a reason why you are
     skipping them or not. The possibly skipped tests must occur between the
     skip and endskip macros.
     
-        skip(TRUE, 2, "These tests do not apply here");
+        skip(TRUE, 2);
         ok(1);
         ok(0);
         endskip;
 
     prints:
     
-        ok 1 # skip These tests do not apply here
-        ok 2 # skip These tests do not apply here
+        ok 1 # skip
+        ok 2 # skip
+
+-   todo(fmt, ...)
+-   endtodo
+
+    Specifies a series of tests that you expect to fail because they are not
+    yet implemented.
+
+        todo()
+        ok(0);
+        endtodo;
+    
+    prints:
+    
+        not ok 1 # TODO
+        #   Failed (TODO) test at todo.c line 7
 

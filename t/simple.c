@@ -4,7 +4,7 @@
 #include "../tap.h"
 
 int main () {
-    plan(20);
+    plan(24);
     
     ok(1);
     ok(1);
@@ -26,6 +26,11 @@ int main () {
     ok(1, "wubble");
     ok(1, "flarp");
     ok(1, "fnord");
+    
+    pass();
+    fail();
+    pass("good");
+    fail("bad");
 
     return exit_status();
 }

@@ -15,9 +15,14 @@ int  diag         (const char *fmt, ...);
 int  note         (const char *fmt, ...);
 int  exit_status  (void);
 void skippy       (int test, const char *fmt, ...);
+void ctodo        (int ignore, const char *fmt, ...);
+void cendtodo     ();
 
-#define skip(test, ...) do {if (test) {skippy(__VA_ARGS__, NULL); break;}
-#define endskip } while (0)
+#define skip(test, ...)  do {if (test) {skippy(__VA_ARGS__, NULL); break;}
+#define endskip          } while (0)
+
+#define todo(...)        ctodo(0, ## __VA_ARGS__, NULL)
+#define endtodo          cendtodo()
 
 #ifdef _WIN32
 #   define dies_ok_common(code, for_death, ...) \
