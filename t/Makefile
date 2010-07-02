@@ -6,12 +6,12 @@ else
 	LDFLAGS = ../$(TAPLIB)
 endif
 
-X = simple$(_X) diesok$(_X) notediag$(_X)
+X = simple$(_X) diesok$(_X) notediag$(_X) skip$(_X)
 
 O1 = simple$(_O)
 O2 = diesok$(_O)
 O3 = notediag$(_O)
-O = $(O1) $(O2) $(O3)
+O4 = skip$(_O)
 
 .PHONY: all
 all: $(X) ../$(TAPLIB)
@@ -33,6 +33,12 @@ notediag$(_X): $(O3) ../$(TAPLIB)
 
 notediag$(_O): notediag.c
 	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) notediag.c
+
+skip$(_X): $(O4) ../$(TAPLIB)
+	$(CC) $(CFLAGS) $(CLOUT)$@ $(O4) $(LDFLAGS)
+
+skip$(_O): skip.c
+	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) skip.c
 
 .PHONY: clean
 clean:

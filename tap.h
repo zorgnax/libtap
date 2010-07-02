@@ -9,11 +9,15 @@
 #define pass(...) ok(1, ## __VA_ARGS__)
 #define fail(...) ok(0, ## __VA_ARGS__)
 
-void plan          (int tests);
-int  ok_at_loc     (const char *file, int line, int test, const char *fmt, ...);
-int  diag          (const char *fmt, ...);
-int  note          (const char *fmt, ...);
-int  exit_status   (void);
+void plan         (int tests);
+int  ok_at_loc    (const char *file, int line, int test, const char *fmt, ...);
+int  diag         (const char *fmt, ...);
+int  note         (const char *fmt, ...);
+int  exit_status  (void);
+void skippy       (int test, const char *fmt, ...);
+
+#define skip(test, ...) do {if (test) {skippy(__VA_ARGS__); break;}
+#define endskip } while (0)
 
 #ifdef _WIN32
 #   define dies_ok_common(code, for_death, ...) \
@@ -23,7 +27,7 @@ int  exit_status   (void);
 #   include <sys/types.h>
 #   include <sys/wait.h>
     int tap_test_died (int status);
-#   define dies_ok_common(code, for_death, ...)                \
+#   define dies_ok_common(code, for_death, ...)                 \
         {                                                       \
             tap_test_died(1);                                   \
             int cpid = fork();                                  \

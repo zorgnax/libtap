@@ -24,19 +24,16 @@ static char *vstrdupf (const char *fmt, va_list args) {
 int ok_at_loc (const char *file, int line, int test, const char *fmt, ...) {
     va_list args;
     char *name = "";
-
     if (fmt) {
         va_start(args, fmt);
         name = vstrdupf(fmt, args);
         va_end(args);
     }
-
     printf("%sok %d%s%s\n",
         test ? "" : "not ",
         ++current_test,
         *name ? " - " : "",
         name);
-    
     if (!test) {
         if (*name)
             diag("  Failed test '%s'\n  at %s line %d.", name, file, line);
@@ -44,21 +41,17 @@ int ok_at_loc (const char *file, int line, int test, const char *fmt, ...) {
             diag("  Failed test at %s line %d.", file, line);
         failed_tests++;
     }
-
     if (fmt)
         free(name);
-
     return test;
 }
 
-static void diag_to_fh_v (FILE *fh, const char *fmt, va_list args) {
+static void vdiag_to_fh (FILE *fh, const char *fmt, va_list args) {
     char *mesg, *line;
     int i;
-
     if (!fmt)
         return;
     mesg = vstrdupf(fmt, args);
-    
     line = mesg;
     for (i = 0; *line; i++) {
         char c = mesg[i];
@@ -70,16 +63,14 @@ static void diag_to_fh_v (FILE *fh, const char *fmt, va_list args) {
             line = &mesg[i+1];
         }
     }
-    
     free(mesg);
-    
     return;
 }
 
 int diag (const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
-    diag_to_fh_v(stderr, fmt, args);
+    vdiag_to_fh(stderr, fmt, args);
     va_end(args);
     return 1;
 }
@@ -87,7 +78,7 @@ int diag (const char *fmt, ...) {
 int note (const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
-    diag_to_fh_v(stdout, fmt, args);
+    vdiag_to_fh(stdout, fmt, args);
     va_end(args);
     return 1;
 }
@@ -110,22 +101,36 @@ int exit_status () {
     return retval;
 }
 
-#ifndef _WIN32
-#include <sys/mman.h>
-/* Create a shared memory int to keep track of whether a piece of code 
-executed dies. to be used in the dies_ok and lives_ok macros  */
-int tap_test_died (int status) {
-    static int *test_died = NULL;
-    int prev;
-
-    if (!test_died) {
-        test_died = mmap(0, sizeof (int), PROT_READ | PROT_WRITE,
-                         MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-        *test_died = 0;
+void skippy (int n, const char *fmt, ...) {
+    char *why;
+    va_list args;
+    va_start(args, fmt);
+    why = vstrdupf(fmt, args);
+    va_end(args);
+    while (n --> 0) {
+        printf("ok %d ", ++current_test);
+        note("skip %s\n", why);
     }
-    
-    prev = *test_died;
-    *test_died = status;
-    return prev;
+    free(why);
 }
+
+#ifndef _WIN32
+#   include <sys/mman.h>
+    /* Create a shared memory int to keep track of whether a piece of code 
+    executed dies. to be used in the dies_ok and lives_ok macros  */
+    int tap_test_died (int status) {
+        static int *test_died = NULL;
+        int prev;
+
+        if (!test_died) {
+            test_died = mmap(0, sizeof (int), PROT_READ | PROT_WRITE,
+                             MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+            *test_died = 0;
+        }
+        
+        prev = *test_died;
+        *test_died = status;
+        return prev;
+    }
 #endif
+
