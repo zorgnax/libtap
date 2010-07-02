@@ -134,11 +134,12 @@ FUNCTIONS
         ok(1) && note("yo!");
         ok(0) || diag("I have no idea what just happened");
 
+-   skip(test, n)
 -   skip(test, n, fmt, ...)
 -   endskip
 
     Skip a series of n tests if test is true. You may give a reason why you are
-    skipping them or not. The possibly skipped tests must occur between the
+    skipping them or not. The (possibly) skipped tests must occur between the
     skip and endskip macros.
     
         skip(TRUE, 2);
@@ -151,6 +152,7 @@ FUNCTIONS
         ok 1 # skip
         ok 2 # skip
 
+-   todo()
 -   todo(fmt, ...)
 -   endtodo
 
