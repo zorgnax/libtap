@@ -1,18 +1,39 @@
-CFLAGS  = -g
-LDFLAGS = -L.. -ltap
-PROGS   = simple diesok notediag
+-include ../config.mak
 
-all: ${PROGS}
+ifdef GNU
+	LDFLAGS = -L.. -ltap
+else
+	LDFLAGS = ../$(TAPLIB)
+endif
 
-simple: simple.c ../libtap.a
-	gcc ${CFLAGS} -o $@ simple.c ${LDFLAGS}
+X = simple$(_X) diesok$(_X) notediag$(_X)
 
-diesok: diesok.c ../libtap.a
-	gcc ${CFLAGS} -o $@ diesok.c ${LDFLAGS}
+O1 = simple$(_O)
+O2 = diesok$(_O)
+O3 = notediag$(_O)
+O = $(O1) $(O2) $(O3)
 
-notediag: notediag.c ../libtap.a
-	gcc ${CFLAGS} -o $@ notediag.c ${LDFLAGS}
+.PHONY: all
+all: $(X) ../$(TAPLIB)
 
+simple$(_X): $(O1) ../$(TAPLIB)
+	$(CC) $(CFLAGS) $(CLOUT)$@ $(O1) $(LDFLAGS)
+
+simple$(_O): simple.c
+	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) simple.c
+
+diesok$(_X): $(O2) ../$(TAPLIB)
+	$(CC) $(CFLAGS) $(CLOUT)$@ $(O2) $(LDFLAGS)
+
+diesok$(_O): diesok.c
+	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) diesok.c
+	
+notediag$(_X): $(O3) ../$(TAPLIB)
+	$(CC) $(CFLAGS) $(CLOUT)$@ $(O3) $(LDFLAGS)
+
+notediag$(_O): notediag.c
+	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) notediag.c
+
+.PHONY: clean
 clean:
-	rm -rvf *.o ${PROGS}
-
+	$(RM) -rv $(X) *.o *.obj *.lib *.pdb *.ilk _C

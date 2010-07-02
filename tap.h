@@ -2,7 +2,6 @@
 #define __TAP_H__
 
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 
 #define NO_PLAN   -1
@@ -10,6 +9,20 @@
 #define pass(...) ok(1, ## __VA_ARGS__)
 #define fail(...) ok(0, ## __VA_ARGS__)
 
+void plan          (int tests);
+int  ok_at_loc     (const char *file, int line, int test, const char *fmt, ...);
+int  diag          (const char *fmt, ...);
+int  note          (const char *fmt, ...);
+int  exit_status   (void);
+
+#ifdef _WIN32
+#define dies_ok_common(code, for_death, ...) \
+    ok(1, "# skip unable to test if code dies on Windows");
+#else
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+int tap_test_died (int status);
 #define dies_ok_common(code, for_death, ...)                \
     {                                                       \
         tap_test_died(1);                                   \
@@ -32,15 +45,9 @@
         if (!it_died) {code}                                \
         ok(for_death ? it_died : !it_died, ## __VA_ARGS__); \
     }
+#endif
 
 #define dies_ok(code, ...)  dies_ok_common(code, 1, ## __VA_ARGS__)
 #define lives_ok(code, ...) dies_ok_common(code, 0, ## __VA_ARGS__)
-
-void plan          (int tests);
-int  ok_at_loc     (const char *file, int line, int test, const char *fmt, ...);
-int  diag          (const char *fmt, ...);
-int  note          (const char *fmt, ...);
-int  exit_status   (void);
-int  tap_test_died (int b);
 
 #endif

@@ -1,22 +1,37 @@
-CFLAGS = -g
+-include config.mak
 
-all: libtap.a
-	cd t && make
+O = tap$(_O)
 
-libtap.a: tap.o
-	ar rcs libtap.a tap.o
+.PHONY: all
+all: $(TAPLIB)
+	$(MAKE) -C t/ all
 
-tap.o: tap.c tap.h
-	gcc ${CFLAGS} -c tap.c
+$(TAPLIB): $(O)
+ifdef GNU
+	$(AR) rcs $(TAPLIB) $(O)
+else
+	lib /nologo /out:$(TAPLIB) $(O)
+endif
+
+tap$(_O): tap.c tap.h
+	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) tap.c
 
 clean:
-	rm -rvf *.o libtap.a
-	cd t && make clean
+	$(RM) -rv $(TAPLIB) *.o *.obj *.lib *.pdb *.ilk _C
+	$(MAKE) -C t/ clean
 
-install: libtap.a tap.h
-	cp libtap.a /usr/lib
-	cp tap.h /usr/include
+ifdef GNU
+.PHONY: install
+install: $(TAPLIB) tap.h
+	$(CP) $(TAPLIB) /usr/lib
+	$(CP) tap.h /usr/include
 
+.PHONY: uninstall
 uninstall:
-	rm /usr/lib/libtap.a /usr/include/tap.h
+	$(RM) /usr/lib/$(TAPLIB) /usr/include/tap.h
+endif
 
+.PHONY: dist
+dist:
+	$(RM) -v libtap.zip
+	zip -r libtap *

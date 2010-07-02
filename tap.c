@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <sys/mman.h>
 #include "tap.h"
 
 static int expected_tests = NO_PLAN;
@@ -14,16 +13,24 @@ void plan (int tests) {
         printf("1..%d\n", tests);
 }
 
+static char *vstrdupf (const char *fmt, va_list args) {
+    char *str;
+    int size = vsnprintf(NULL, 0, fmt, args) + 1;
+    str = malloc(size);
+    vsprintf(str, fmt, args);
+    return str;
+}
+
 int ok_at_loc (const char *file, int line, int test, const char *fmt, ...) {
     va_list args;
     char *name = "";
-    
+
     if (fmt) {
         va_start(args, fmt);
-        vasprintf(&name, fmt, args);
+        name = vstrdupf(fmt, args);
         va_end(args);
     }
-    
+
     printf("%sok %d%s%s\n",
         test ? "" : "not ",
         ++current_test,
@@ -37,8 +44,9 @@ int ok_at_loc (const char *file, int line, int test, const char *fmt, ...) {
             diag("  Failed test at %s line %d.", file, line);
         failed_tests++;
     }
-    
-    if (fmt) free(name);
+
+    if (fmt)
+        free(name);
 
     return test;
 }
@@ -47,8 +55,9 @@ static void diag_to_fh_v (FILE *fh, const char *fmt, va_list args) {
     char *mesg, *line;
     int i;
 
-    if (!fmt) return;
-    vasprintf(&mesg, fmt, args);
+    if (!fmt)
+        return;
+    mesg = vstrdupf(fmt, args);
     
     line = mesg;
     for (i = 0; *line; i++) {
@@ -101,18 +110,22 @@ int exit_status () {
     return retval;
 }
 
+#ifndef _WIN32
+#include <sys/mman.h>
 /* Create a shared memory int to keep track of whether a piece of code 
 executed dies. to be used in the dies_ok and lives_ok macros  */
-int tap_test_died (int b) {
+int tap_test_died (int status) {
     static int *test_died = NULL;
-    
+    int prev;
+
     if (!test_died) {
         test_died = mmap(0, sizeof (int), PROT_READ | PROT_WRITE,
                          MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+        *test_died = 0;
     }
     
-    int prev = *test_died;
-    *test_died = b;
+    prev = *test_died;
+    *test_died = status;
     return prev;
 }
-
+#endif
