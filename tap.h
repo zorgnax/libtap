@@ -16,7 +16,7 @@ int  note         (const char *fmt, ...);
 int  exit_status  (void);
 void skippy       (int test, const char *fmt, ...);
 
-#define skip(test, ...) do {if (test) {skippy(__VA_ARGS__); break;}
+#define skip(test, ...) do {if (test) {skippy(__VA_ARGS__, NULL); break;}
 #define endskip } while (0)
 
 #ifdef _WIN32
