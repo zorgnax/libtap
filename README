@@ -97,7 +97,8 @@ FUNCTIONS
 -   unlike(got, expected, fmt, ...)
 
     Tests that the string you got matches the expected extended POSIX regex.
-    unlike is the reverse.
+    unlike is the reverse. These macros are the equivalent of a skip on
+    Windows.
     
         like("stranger", "^s.(r).*\\1$", "matches the regex");
         
