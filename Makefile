@@ -23,12 +23,12 @@ clean:
 ifdef GNU
 .PHONY: install
 install: $(TAPLIB) tap.h
-	$(CP) $(TAPLIB) /usr/lib
-	$(CP) tap.h /usr/include
+	sudo cp $(TAPLIB) /usr/lib
+	sudo cp tap.h /usr/include
 
 .PHONY: uninstall
 uninstall:
-	$(RM) /usr/lib/$(TAPLIB) /usr/include/tap.h
+	sudo $(RM) /usr/lib/$(TAPLIB) /usr/include/tap.h
 endif
 
 .PHONY: dist
