@@ -230,7 +230,7 @@ void cendtodo () {
         va_start(args, fmt);
         vok_at_loc(file, line, test, fmt, args);
         va_end(args);
-        if (!test)
+        if (!test) {
             if (for_match) {
                 diag("                   '%s'", got);
                 diag("    doesn't match: '%s'", expected);
