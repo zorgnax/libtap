@@ -33,7 +33,7 @@ void cendtodo     ();
 #   include <sys/wait.h>
     int tap_test_died (int status);
 #   define dies_ok_common(code, for_death, ...)                 \
-        {                                                       \
+        do {                                                    \
             tap_test_died(1);                                   \
             int cpid = fork();                                  \
             switch (cpid) {                                     \
@@ -53,7 +53,7 @@ void cendtodo     ();
             int it_died = tap_test_died(0);                     \
             if (!it_died) {code}                                \
             ok(for_death ? it_died : !it_died, ## __VA_ARGS__); \
-        }
+        } while (0)
 #endif
 
 #define dies_ok(code, ...)  dies_ok_common(code, 1, ## __VA_ARGS__)
