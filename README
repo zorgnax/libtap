@@ -73,6 +73,24 @@ FUNCTIONS
         #   Failed test 'page turned to the right one'
         #   at reader.c line 13.
 
+-   is(got, expected)
+-   is(got, expected, fmt, ...)
+-   isnt(got, expected)
+-   isnt(got, expected, fmt, ...)
+
+    Tests that the string you got is what you expected. with isnt, it is the
+    reverse.
+    
+        is("this", "that", "this is that");
+
+    prints:
+    
+        not ok 1 - this is that
+        #   Failed test 'this is that'
+        #   at is.c line 6.
+        #          got: 'this'
+        #     expected: 'that'
+
 -   pass()
 -   pass(fmt, ...)
 -   fail()
