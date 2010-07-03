@@ -7,7 +7,7 @@
 static int expected_tests = NO_PLAN;
 static int failed_tests;
 static int current_test;
-static char *todo_mesg = NULL;
+static char *todo_mesg;
 
 void plan (int tests) {
     expected_tests = tests;
@@ -141,19 +141,22 @@ int note (const char *fmt, ...) {
 }
 
 int exit_status () {
-    int retval = EXIT_SUCCESS;
+    int retval = 0;
     if (expected_tests == NO_PLAN) {
         printf("1..%d\n", current_test);
     }
     else if (current_test != expected_tests) {
         diag("Looks like you planned %d test%s but ran %d.",
             expected_tests, expected_tests > 1 ? "s" : "", current_test);
-        retval = EXIT_FAILURE;
+        retval = 255;
     }
     if (failed_tests) {
         diag("Looks like you failed %d test%s of %d run.",
             failed_tests, failed_tests > 1 ? "s" : "", current_test);
-        retval = EXIT_FAILURE;
+        if (expected_tests == NO_PLAN)
+            retval = failed_tests;
+        else
+            retval = expected_tests - current_test + failed_tests;
     }
     return retval;
 }

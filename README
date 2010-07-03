@@ -138,13 +138,15 @@ FUNCTIONS
     
         1..5
     
-    it will also exit with EXIT_SUCCESS or EXIT_FAILURE depending on whether
-    there were any failures. If there was a plan and the number of tests are 
-    not equal to the expected number, it will exit with a failure and print a
-    message about it. It will also print a diagnostic message about how many
+    It will also print a diagnostic message about how many
     failures there were.
     
         # Looks like you failed 2 tests of 3 run.
+    
+    If all planned tests were successful, it will return 0. If any test fails,
+    it will return the number of failed tests (including ones that were
+    missing). If they all passed, but there were missing tests, it will return
+    255.
 
 -   note(fmt, ...)
 -   diag(fmt, ...)
