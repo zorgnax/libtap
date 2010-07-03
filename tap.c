@@ -185,6 +185,8 @@ void cendtodo () {
 
 #ifndef _WIN32
 #   include <sys/mman.h>
+#   include <regex.h>
+
     /* Create a shared memory int to keep track of whether a piece of code 
     executed dies. to be used in the dies_ok and lives_ok macros  */
     int tap_test_died (int status) {
@@ -198,6 +200,42 @@ void cendtodo () {
         prev = *test_died;
         *test_died = status;
         return prev;
+    }
+
+    int like_at_loc (int         for_match,
+                     const char *file,
+                     int         line,
+                     const char *got,
+                     const char *expected,
+                     const char *fmt,
+                     ...)
+    {
+        int test;
+        regex_t re;
+        int err = regcomp(&re, expected, REG_EXTENDED);
+        if (err) {
+            char errbuf[256];
+            regerror(err, &re, errbuf, sizeof errbuf);
+            fprintf(stderr, "Unable to compile regex '%s': %s at %s line %d\n",
+                            expected, errbuf, file, line);
+            exit(255);
+        }
+        err = regexec(&re, got, 0, NULL, 0);
+        regfree(&re);
+        test = for_match ? !err : err;
+        va_list args;
+        va_start(args, fmt);
+        vok_at_loc(file, line, test, fmt, args);
+        va_end(args);
+        if (!test && for_match) {
+            diag("                   '%s'", got);
+            diag("    doesn't match: '%s'", expected);
+        }
+        else if (!test && !for_match) {
+            diag("                   '%s'", got);
+            diag("          matches: '%s'", expected);
+        }
+        return test;
     }
 #endif
 

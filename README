@@ -91,6 +91,20 @@ FUNCTIONS
         #          got: 'this'
         #     expected: 'that'
 
+-   like(got, expected)
+-   like(got, expected, fmt, ...)
+-   unlike(got, expected)
+-   unlike(got, expected, fmt, ...)
+
+    Tests that the string you got matches the expected extended POSIX regex.
+    unlike is the reverse.
+    
+        like("stranger", "^s.(r).*\\1$", "matches the regex");
+        
+    prints:
+    
+        ok 1 - matches the regex
+
 -   pass()
 -   pass(fmt, ...)
 -   fail()
@@ -104,7 +118,7 @@ FUNCTIONS
 -   lives_ok(code)
 -   lives_ok(code, fmt, ...)
 
-    tests whether the given code causes your program to exit. The code gets
+    Tests whether the given code causes your program to exit. The code gets
     passed to a macro that will test it in a forked process. If the code
     succeeds it will be executed in the parent process. You can test things 
     like passing a function a null pointer and make sure it doesnt 
@@ -112,9 +126,9 @@ FUNCTIONS
     
         dies_ok({abort();}, "abort does close your program");
         dies_ok({int x = 0/0;}, "divide by zero crash");
-        double d = 0;
-        lives ok({d = pow(3.0, 5.0)}, "nothing wrong with taking 3**5");
-        ok(d > pow(3.0, 4.0), "3**5 is greater than 3**4");
+        lives ok({pow(3.0, 5.0)}, "nothing wrong with taking 3**5");
+    
+    On Windows, these macros are the equivalent of a skip.
 
 -   exit_status()
 
