@@ -6,13 +6,14 @@ else
 	LDFLAGS = ../$(TAPLIB)
 endif
 
-X = simple$(_X) diesok$(_X) notediag$(_X) skip$(_X) todo$(_X)
+X = simple$(_X) diesok$(_X) notediag$(_X) skip$(_X) todo$(_X) is$(_X)
 
 O1 = simple$(_O)
 O2 = diesok$(_O)
 O3 = notediag$(_O)
 O4 = skip$(_O)
 O5 = todo$(_O)
+O6 = is$(_O)
 O = $(O1) $(O2) $(O3) $(O4) $(O5)
 
 $(O): ../$(TAPLIB) ../tap.h
@@ -49,6 +50,12 @@ todo$(_X): $(O5) ../$(TAPLIB)
 
 todo$(_O): todo.c
 	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) todo.c
+
+is$(_X): $(O6) ../$(TAPLIB)
+	$(CC) $(CFLAGS) $(CLOUT)$@ $(O6) $(LDFLAGS)
+
+is$(_O): is.c
+	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) is.c
 
 .PHONY: clean
 clean:

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 #include "tap.h"
 
 static int expected_tests = NO_PLAN;
@@ -22,14 +23,13 @@ static char *vstrdupf (const char *fmt, va_list args) {
     return str;
 }
 
-int ok_at_loc (const char *file, int line, int test, const char *fmt, ...) {
-    va_list args;
-    char *name = "";
-    if (fmt) {
-        va_start(args, fmt);
-        name = vstrdupf(fmt, args);
-        va_end(args);
-    }
+static int vok_at_loc (const char *file,
+                       int         line,
+                       int         test,
+                       const char *fmt,
+                       va_list     args)
+{
+    char *name = vstrdupf(fmt, args);
     printf("%sok %d", test ? "" : "not ", ++current_test);
     if (*name)
         printf(" - %s", name);
@@ -49,8 +49,57 @@ int ok_at_loc (const char *file, int line, int test, const char *fmt, ...) {
         if (!todo_mesg)
             failed_tests++;
     }
-    if (fmt)
-        free(name);
+    free(name);
+    return test;
+}
+
+int ok_at_loc (const char *file, int line, int test, const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    vok_at_loc(file, line, test, fmt, args);
+    va_end(args);
+    return test;
+}
+
+static int mystrcmp (const char *a, const char *b) {
+    return a == b ? 0 : !a ? -1 : !b ? 1 : strcmp(a, b);
+}
+
+int is_at_loc (const char *file,
+               int         line,
+               const char *got,
+               const char *expected,
+               const char *fmt,
+               ...)
+{
+    int test = !mystrcmp(got, expected);
+    va_list args;
+    va_start(args, fmt);
+    vok_at_loc(file, line, test, fmt, args);
+    va_end(args);
+    if (!test) {
+        diag("         got: '%s'", got);
+        diag("    expected: '%s'", expected);
+    }
+    return test;
+}
+
+int isnt_at_loc (const char *file,
+                 int         line,
+                 const char *got,
+                 const char *expected,
+                 const char *fmt,
+                 ...)
+{
+    int test = mystrcmp(got, expected);
+    va_list args;
+    va_start(args, fmt);
+    vok_at_loc(file, line, test, fmt, args);
+    va_end(args);
+    if (!test) {
+        diag("         got: '%s'", got);
+        diag("    expected: anything else");
+    }
     return test;
 }
 
