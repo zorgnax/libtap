@@ -8,14 +8,15 @@ SYNOPSIS
 
     #include <tap.h>
     
-    int foo () {return 3;}
+    int   foo () {return 3;}
+    char *bar () {return "fnord";}
     
     int main () {
         plan(4);
         ok(foo() == 3);
-        ok(foo() == 55);
-        ok(foo() > 2, "foo returns a number greater than 2");
-        ok(foo() <= 8732, "foo is less than or equal to %d", 8732);
+        is(bar(), "eek");
+        ok(foo() <= 8732, "foo <= %d", 8732);
+        like(bar(), "f(yes|no)r*[a-f]$", "is like");
         return exit_status();
     }
 
@@ -24,9 +25,11 @@ results in:
     1..4
     ok 1
     not ok 2
-    #   Failed test at synopsis.c line 8.
-    ok 3 - foo returns a number greater than 2
-    ok 4 - foo is less than or equal to 8732
+    #   Failed test at main.c line 7.
+    #          got: 'fnord'
+    #     expected: 'eek'
+    ok 3 - foo <= 8732
+    ok 4 - is like
     # Looks like you failed 1 test of 4 run.
 
 
