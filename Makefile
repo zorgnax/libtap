@@ -1,21 +1,13 @@
--include config.mak
-
-O = tap$(_O)
+include config.mk
 
 .PHONY: all
 all: $(TAPLIB)
 	$(MAKE) -C t/ all
 
-$(TAPLIB): $(O)
-ifdef GNU
-	$(AR) rcs $(TAPLIB) $(O)
-else
-	lib /nologo /out:$(TAPLIB) $(O)
-endif
-
+$(TAPLIB): tap$(_O)
 tap$(_O): tap.c tap.h
-	$(CC) $(CCFLAGS) $(CCOUT)$@ $(CFLAGS) tap.c
 
+.PHONY: clean
 clean:
 	$(RM) -rv $(TAPLIB) *.o *.obj *.lib *.pdb *.ilk _C
 	$(MAKE) -C t/ clean
