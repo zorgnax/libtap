@@ -10,28 +10,34 @@ SYNOPSIS
     
     int   foo () {return 3;}
     char *bar () {return "fnord";}
-    
+
     int main () {
-        plan(4);
+        plan(5);
         ok(foo() == 3);
         is(bar(), "eek");
         ok(foo() <= 8732, "foo <= %d", 8732);
         like(bar(), "f(yes|no)r*[a-f]$", "is like");
+        cmp_ok(foo(), ">=", 10, "foo is greater than ten");
         return exit_status();
     }
 
 results in:
 
-    1..4
+    1..5
     ok 1
     not ok 2
-    #   Failed test at main.c line 7.
+    #   Failed test at synopsis.c line 9.
     #          got: 'fnord'
     #     expected: 'eek'
     ok 3 - foo <= 8732
     ok 4 - is like
-    # Looks like you failed 1 test of 4 run.
-
+    not ok 5 - foo is greater than ten
+    #   Failed test 'foo is greater than ten'
+    #   at synopsis.c line 12.
+    #     3
+    #         >=
+    #     10
+    # Looks like you failed 2 tests of 5 run.
 
 DESCRIPTION
 ===========
