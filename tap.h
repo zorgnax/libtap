@@ -4,12 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define NO_PLAN             -1
-#define ok(...)             ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define pass(...)           ok(1, ## __VA_ARGS__)
-#define fail(...)           ok(0, ## __VA_ARGS__)
-#define is(...)             is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define isnt(...)           isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define NO_PLAN          -1
+#define ok(...)          ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define pass(...)        ok(1, ## __VA_ARGS__)
+#define fail(...)        ok(0, ## __VA_ARGS__)
+#define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 
 void    plan            (int tests);
 int     ok_at_loc       (const char *file,
