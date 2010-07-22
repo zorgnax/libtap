@@ -94,6 +94,23 @@ FUNCTIONS
         #          got: 'this'
         #     expected: 'that'
 
+-   cmp_ok(a, op, b)
+-   cmp_ok(a, op, b, fmt, ...)
+
+    Compares two ints with any binary operator that doesn't require an lvalue.
+    This is nice to use since it provides a better error message than an
+    equivalent ok.
+    
+        cmp_ok(420, ">", 666);
+    
+    prints:
+    
+        not ok 1
+        #   Failed test at cmpok.c line 5.
+        #     420
+        #         >
+        #     666
+
 -   like(got, expected)
 -   like(got, expected, fmt, ...)
 -   unlike(got, expected)

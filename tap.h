@@ -10,6 +10,7 @@
 #define fail(...)        ok(0, ## __VA_ARGS__)
 #define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 
 void    plan            (int tests);
 int     ok_at_loc       (const char *file, int line, int test, const char *fmt,
@@ -24,6 +25,8 @@ int     is_at_loc       (const char *file, int line, const char *got,
                          const char *expected, const char *fmt, ...);
 int     isnt_at_loc     (const char *file, int line, const char *got,
                          const char *expected, const char *fmt, ...);
+int     cmp_ok_at_loc   (const char *file, int line, int a, const char *op,
+                         int b, const char *fmt, ...);
 
 #ifdef _WIN32
 #define like(...)   skippy(1, "like is not implemented on MSWin32")

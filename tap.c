@@ -67,11 +67,14 @@ mystrcmp (const char *a, const char *b) {
     return a == b ? 0 : !a ? -1 : !b ? 1 : strcmp(a, b);
 }
 
+#define eq(a, b) (!mystrcmp(a, b))
+#define ne(a, b) (mystrcmp(a, b))
+
 int
 is_at_loc (const char *file, int line, const char *got, const char *expected,
            const char *fmt, ...)
 {
-    int test = !mystrcmp(got, expected);
+    int test = eq(got, expected);
     va_list args;
     va_start(args, fmt);
     vok_at_loc(file, line, test, fmt, args);
@@ -87,7 +90,7 @@ int
 isnt_at_loc (const char *file, int line, const char *got, const char *expected,
              const char *fmt, ...)
 {
-    int test = mystrcmp(got, expected);
+    int test = ne(got, expected);
     va_list args;
     va_start(args, fmt);
     vok_at_loc(file, line, test, fmt, args);
@@ -95,6 +98,41 @@ isnt_at_loc (const char *file, int line, const char *got, const char *expected,
     if (!test) {
         diag("         got: '%s'", got);
         diag("    expected: anything else");
+    }
+    return test;
+}
+
+int
+cmp_ok_at_loc (const char *file, int line, int a, const char *op, int b,
+               const char *fmt, ...)
+{
+    int test = eq(op, "||") ? a || b
+             : eq(op, "&&") ? a && b
+             : eq(op, "|")  ? a |  b
+             : eq(op, "^")  ? a ^  b
+             : eq(op, "&")  ? a &  b
+             : eq(op, "==") ? a == b
+             : eq(op, "!=") ? a != b
+             : eq(op, "<")  ? a <  b
+             : eq(op, ">")  ? a >  b
+             : eq(op, "<=") ? a <= b
+             : eq(op, ">=") ? a >= b
+             : eq(op, "<<") ? a << b
+             : eq(op, ">>") ? a >> b
+             : eq(op, "+")  ? a +  b
+             : eq(op, "-")  ? a -  b
+             : eq(op, "*")  ? a *  b
+             : eq(op, "/")  ? a /  b
+             : eq(op, "%")  ? a %  b
+             : diag("unrecognized operator '%s'", op);
+    va_list args;
+    va_start(args, fmt);
+    vok_at_loc(file, line, test, fmt, args);
+    va_end(args);
+    if (!test) {
+        diag("    %d", a);
+        diag("        %s", op);
+        diag("    %d", b);
     }
     return test;
 }
@@ -127,7 +165,7 @@ diag (const char *fmt, ...) {
     va_start(args, fmt);
     vdiag_to_fh(stderr, fmt, args);
     va_end(args);
-    return 1;
+    return 0;
 }
 
 int
@@ -136,7 +174,7 @@ note (const char *fmt, ...) {
     va_start(args, fmt);
     vdiag_to_fh(stdout, fmt, args);
     va_end(args);
-    return 1;
+    return 0;
 }
 
 int
