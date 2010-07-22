@@ -27,3 +27,8 @@ endif
 dist:
 	$(RM) -v libtap.zip
 	zip -r libtap *
+
+.PHONY: check
+check:
+	prove
+

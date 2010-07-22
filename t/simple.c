@@ -1,11 +1,8 @@
-/* test 1: very simple usage of the library. Doesnt produce test output
-(There are failures), but shows how it can be used.  */
-
-#include "../tap.h"
+#include "tap.h"
 
 int main () {
+    setvbuf(stdout, NULL, _IONBF, 0);
     plan(24);
-    
     ok(1);
     ok(1);
     ok(1);
@@ -26,12 +23,10 @@ int main () {
     ok(1, "wubble");
     ok(1, "flarp");
     ok(1, "fnord");
-    
     pass();
     fail();
     pass("good");
     fail("bad");
-
     return exit_status();
 }
 

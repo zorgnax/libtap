@@ -1,5 +1,7 @@
 include ../config.mk
 
+CFLAGS += -I..
+
 X := simple diesok notediag skip todo is like cmpok synopsis
 X := $(patsubst %, %$(_X), $(X))
 O = $(patsubst %$(_X), %$(_O), $(X))
