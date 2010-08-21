@@ -25,7 +25,7 @@ vstrdupf (const char *fmt, va_list args) {
     return str;
 }
 
-static int
+int
 vok_at_loc (const char *file, int line, int test, const char *fmt,
             va_list args)
 {

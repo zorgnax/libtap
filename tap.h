@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 #define NO_PLAN          -1
 #define ok(...)          ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
@@ -12,6 +13,8 @@
 #define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 
+int     vok_at_loc      (const char *file, int line, int test, const char *fmt,
+                         va_list args);
 void    plan            (int tests);
 int     ok_at_loc       (const char *file, int line, int test, const char *fmt,
                          ...);
