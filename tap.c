@@ -19,7 +19,7 @@ plan (int tests) {
 static char *
 vstrdupf (const char *fmt, va_list args) {
     char *str;
-    int size = vsnprintf(NULL, 0, fmt, args) + 1;
+    int size = vsnprintf(NULL, 0, fmt, args) + 2;
     str = malloc(size);
     vsprintf(str, fmt, args);
     return str;
