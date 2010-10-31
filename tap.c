@@ -18,12 +18,13 @@ plan (int tests) {
 
 static char *
 vstrdupf (const char *fmt, va_list args) {
-    char *str = "";
+    char *str;
+    int size;
     va_list args2;
     va_copy(args2, args);
-    if(!fmt)
-      fmt = "";
-    int size = vsnprintf(NULL, 0, fmt, args2) + 2;
+    if (!fmt)
+        fmt = "";
+    size = vsnprintf(NULL, 0, fmt, args2) + 2;
     str = malloc(size);
     vsprintf(str, fmt, args);
     va_end(args2);
