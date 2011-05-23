@@ -9,7 +9,7 @@ ifdef GNU
 	CLOUT = -o
 	PIC = -fPIC
 	_O = .o
-	_X =
+	_X = .t
 	_A = .a
 	_SO = .so
 	TAPLIB = libtap.a
