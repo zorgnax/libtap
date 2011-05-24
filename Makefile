@@ -30,4 +30,5 @@ dist:
 
 .PHONY: check
 check:
-	prove -e ''
+	prove
+
