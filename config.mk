@@ -9,7 +9,7 @@ ifdef GNU
 	CLOUT = -o
 	PIC = -fPIC
 	_O = .o
-	_X = .t
+	_X =
 	_A = .a
 	_SO = .so
 	TAPLIB = libtap.a
@@ -19,11 +19,11 @@ else
 	CC = cl /nologo
 	ALLCFLAGS = /Wall /wd4255 /wd4996 /wd4127 /wd4820 \
 			    /wd4100 /wd4619 /wd4514 /wd4668 $(CFLAGS)
-    DEBUG = /Zi
+	DEBUG = /Zi
 	CCFLAGS = /c
 	CCOUT = /Fo
 	CLOUT = /Fe
-	PIC = 
+	PIC =
 	_O = .obj
 	_X = .exe
 	_A = .lib

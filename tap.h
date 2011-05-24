@@ -1,6 +1,10 @@
 #ifndef __TAP_H__
 #define __TAP_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef va_copy
 #define va_copy(d,s) ((d) = (s))
 #endif
@@ -24,9 +28,6 @@
 #define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 int     vok_at_loc      (const char *file, int line, int test, const char *fmt,
                          va_list args);
 void    plan            (int tests);
@@ -44,10 +45,6 @@ int     isnt_at_loc     (const char *file, int line, const char *got,
                          const char *expected, const char *fmt, ...);
 int     cmp_ok_at_loc   (const char *file, int line, int a, const char *op,
                          int b, const char *fmt, ...);
-#ifdef __cplusplus
-}
-#endif
-
 
 #ifdef _WIN32
 #define like(...)   skippy(1, "like is not implemented on MSWin32")
@@ -55,9 +52,6 @@ int     cmp_ok_at_loc   (const char *file, int line, int a, const char *op,
 #else
 #define like(...)   like_at_loc(1, __FILE__, __LINE__, __VA_ARGS__, NULL)
 #define unlike(...) like_at_loc(0, __FILE__, __LINE__, __VA_ARGS__, NULL)
-#ifdef __cplusplus
-extern "C"
-#endif
 int     like_at_loc     (int for_match, const char *file, int line,
                          const char *got, const char *expected,
                          const char *fmt, ...);
@@ -79,9 +73,6 @@ int     like_at_loc     (int for_match, const char *file, int line,
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-#ifdef __cplusplus
-extern "C"
-#endif
 int tap_test_died (int status);
 #define dies_ok_common(code, for_death, ...)                \
     do {                                                    \
@@ -106,4 +97,10 @@ int tap_test_died (int status);
         ok(for_death ? it_died : !it_died, ## __VA_ARGS__); \
     } while (0)
 #endif
+
+#ifdef __cplusplus
+}
 #endif
+
+#endif
+
