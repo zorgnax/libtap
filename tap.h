@@ -13,21 +13,6 @@ extern "C" {
 #include <stdlib.h>
 #include <stdarg.h>
 
-#define NO_PLAN          -1
-#define ok(...)          ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-
-#ifdef _WIN32
-#define pass(...)        ok_at_loc(__FILE__, __LINE__, 1, __VA_ARGS__, NULL)
-#define fail(...)        ok_at_loc(__FILE__, __LINE__, 0, __VA_ARGS__, NULL)
-#else
-#define pass(...)        ok(1, ## __VA_ARGS__)
-#define fail(...)        ok(0, ## __VA_ARGS__)
-#endif
-
-#define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-
 int     vok_at_loc      (const char *file, int line, int test, const char *fmt,
                          va_list args);
 void    plan            (int tests);
@@ -46,16 +31,11 @@ int     isnt_at_loc     (const char *file, int line, const char *got,
 int     cmp_ok_at_loc   (const char *file, int line, int a, const char *op,
                          int b, const char *fmt, ...);
 
-#ifdef _WIN32
-#define like(...)   skippy(1, "like is not implemented on MSWin32")
-#define unlike(...) like()
-#else
-#define like(...)   like_at_loc(1, __FILE__, __LINE__, __VA_ARGS__, NULL)
-#define unlike(...) like_at_loc(0, __FILE__, __LINE__, __VA_ARGS__, NULL)
-int     like_at_loc     (int for_match, const char *file, int line,
-                         const char *got, const char *expected,
-                         const char *fmt, ...);
-#endif
+#define NO_PLAN          -1
+#define ok(...)          ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 
 #define skip(test, ...)  do {if (test) {skippy(__VA_ARGS__, NULL); break;}
 #define endskip          } while (0)
@@ -63,13 +43,24 @@ int     like_at_loc     (int for_match, const char *file, int line,
 #define todo(...)        ctodo(0, ## __VA_ARGS__, NULL)
 #define endtodo          cendtodo()
 
-#define dies_ok(code, ...)  dies_ok_common(code, 1, ## __VA_ARGS__)
-#define lives_ok(code, ...) dies_ok_common(code, 0, ## __VA_ARGS__)
+#define dies_ok(code, ...)   dies_ok_common(code, 1, ## __VA_ARGS__)
+#define lives_ok(code, ...)  dies_ok_common(code, 0, ## __VA_ARGS__)
 
 #ifdef _WIN32
+#define pass(...)        ok_at_loc(__FILE__, __LINE__, 1, __VA_ARGS__, NULL)
+#define fail(...)        ok_at_loc(__FILE__, __LINE__, 0, __VA_ARGS__, NULL)
+#define like(...)        skippy(1, "like is not implemented on MSWin32")
+#define unlike(...)      like()
 #define dies_ok_common(...) \
     skippy(1, "Death detection is not supported on MSWin32")
 #else
+#define pass(...)        ok(1, ## __VA_ARGS__)
+#define fail(...)        ok(0, ## __VA_ARGS__)
+#define like(...)        like_at_loc(1, __FILE__, __LINE__, __VA_ARGS__, NULL)
+#define unlike(...)      like_at_loc(0, __FILE__, __LINE__, __VA_ARGS__, NULL)
+int     like_at_loc     (int for_match, const char *file, int line,
+                         const char *got, const char *expected,
+                         const char *fmt, ...);
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
