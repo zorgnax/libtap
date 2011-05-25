@@ -77,19 +77,21 @@ int tap_test_died (int status);
         switch (cpid) {                                     \
         case -1:                                            \
             perror("fork error");                           \
-            exit(EXIT_FAILURE);                             \
-        case 0: /* child  */                                \
-            close(1); close(2);                             \
+            exit(1);                                        \
+        case 0:                                             \
+            close(1);                                       \
+            close(2);                                       \
             code                                            \
             tap_test_died(0);                               \
-            exit(EXIT_SUCCESS);                             \
+            exit(0);                                        \
         }                                                   \
         if (waitpid(cpid, NULL, 0) < 0) {                   \
             perror("waitpid error");                        \
-            exit(EXIT_FAILURE);                             \
+            exit(1);                                        \
         }                                                   \
         int it_died = tap_test_died(0);                     \
-        if (!it_died) {code}                                \
+        if (!it_died)                                       \
+            {code}                                          \
         ok(for_death ? it_died : !it_died, ## __VA_ARGS__); \
     } while (0)
 #endif
