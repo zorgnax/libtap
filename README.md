@@ -229,3 +229,16 @@ FUNCTIONS
         not ok 1 # TODO
         #   Failed (TODO) test at todo.c line 7
 
+-   BAIL_OUT()
+-   BAIL_OUT(fmt, ...)
+
+    Immediately stops all testing.
+
+        BAIL_OUT("Can't go no further");
+
+    prints
+
+        Bail out!  Can't go no further
+
+    and exits with 255.
+

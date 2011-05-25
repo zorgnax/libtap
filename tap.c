@@ -205,6 +205,18 @@ exit_status () {
     return retval;
 }
 
+int
+bail_out (int ignore, const char *fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    printf("Bail out!  ");
+    vprintf(fmt, args);
+    printf("\n");
+    va_end(args);
+    exit(255);
+    return 0;
+}
+
 void
 skippy (int n, const char *fmt, ...) {
     char *why;
