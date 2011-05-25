@@ -9,18 +9,18 @@ the correct development environment variables. Usually this
 is done by running vcvars32.bat included in the visual studio
 distribution. You should also install gnu make which can be
 found at http://gnuwin32.sourceforge.net/packages/make.htm.
-Also, you should have perl to run the tests although this isnt
+And you should have perl to run the tests although this isnt
 absolutely necessary. Once this is done, you should be able to
 run the following:
 
     > make GNU=
     > make check
 
-You can also might want to make use of the visual studio project file
-included.
+Alternatively, you might want to use the visual studio project file
+included by Alexander Kahl (e-user).
 
-It may not be necessary to install it on your system. You can copy tap.c
-and tap.h into your project and it should have no problem compiling.
+If you want to use it directly in another project, you can copy tap.c
+and tap.h there and it shouldn't have a problem compiling.
 
     $ ls
     tap.c tap.h test.c
