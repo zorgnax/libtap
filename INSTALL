@@ -1,0 +1,38 @@
+To install libtap on a unix-like system:
+
+    $ make
+    $ make check
+    $ make install
+
+On Windows, the library can be created by first setting up
+the correct development environment variables. Usually this
+is done by running vcvars32.bat included in the visual studio
+distribution. You should also install gnu make which can be
+found at http://gnuwin32.sourceforge.net/packages/make.htm.
+Also, you should have perl to run the tests although this isnt
+absolutely necessary. Once this is done, you should be able to
+run the following:
+
+    > make GNU=
+    > make check
+
+You can also might want to make use of the visual studio project file
+included.
+
+It may not be necessary to install it on your system. You can copy tap.c
+and tap.h into your project and it should have no problem compiling.
+
+    $ ls
+    tap.c tap.h test.c
+    $ cat test.c
+    #include "tap.h"
+    int main () {
+        plan(1);
+        ok(50 + 5, "foo %s", "bar");
+        done_testing;
+    }
+    $ gcc test.c tap.c
+    $ a.out
+    1..1
+    ok 1 - foo bar
+
