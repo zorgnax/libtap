@@ -13,6 +13,6 @@ int main () {
     ok(1, "thud");
     ok(1, "wombat");
     endtodo;
-    return exit_status();
+    done_testing;
 }
 

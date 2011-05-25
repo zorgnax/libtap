@@ -15,27 +15,28 @@ extern "C" {
 
 int     vok_at_loc      (const char *file, int line, int test, const char *fmt,
                          va_list args);
-void    plan            (int tests);
 int     ok_at_loc       (const char *file, int line, int test, const char *fmt,
                          ...);
-int     diag            (const char *fmt, ...);
-int     note            (const char *fmt, ...);
-int     exit_status     (void);
-void    skippy          (int n, const char *fmt, ...);
-void    ctodo           (int ignore, const char *fmt, ...);
-void    cendtodo        (void);
 int     is_at_loc       (const char *file, int line, const char *got,
                          const char *expected, const char *fmt, ...);
 int     isnt_at_loc     (const char *file, int line, const char *got,
                          const char *expected, const char *fmt, ...);
 int     cmp_ok_at_loc   (const char *file, int line, int a, const char *op,
                          int b, const char *fmt, ...);
+void    plan            (int tests);
+int     diag            (const char *fmt, ...);
+int     note            (const char *fmt, ...);
+int     exit_status     (void);
+void    skippy          (int n, const char *fmt, ...);
+void    ctodo           (int ignore, const char *fmt, ...);
+void    cendtodo        (void);
 
 #define NO_PLAN          -1
 #define ok(...)          ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define done_testing     return exit_status()
 
 #define skip(test, ...)  do {if (test) {skippy(__VA_ARGS__, NULL); break;}
 #define endskip          } while (0)

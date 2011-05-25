@@ -6,6 +6,6 @@ int main () {
     like("strange", "range", "strange ~~ /range/");
     unlike("strange", "anger", "strange !~~ /anger/");
     like("stranger", "^s.(r).*\\1$", "matches the regex");
-    return exit_status();
+    done_testing;
 }
 

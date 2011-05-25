@@ -27,6 +27,6 @@ int main () {
     fail();
     pass("good");
     fail("bad");
-    return exit_status();
+    done_testing;
 }
 
