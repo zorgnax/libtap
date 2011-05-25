@@ -9,13 +9,6 @@ static int failed_tests;
 static int current_test;
 static char *todo_mesg;
 
-void
-plan (int tests) {
-    expected_tests = tests;
-    if (tests != NO_PLAN)
-        printf("1..%d\n", tests);
-}
-
 static char *
 vstrdupf (const char *fmt, va_list args) {
     char *str;
@@ -29,6 +22,24 @@ vstrdupf (const char *fmt, va_list args) {
     vsprintf(str, fmt, args);
     va_end(args2);
     return str;
+}
+
+void
+cplan (int tests, const char *fmt, ...) {
+    expected_tests = tests;
+    if (tests == SKIP_ALL) {
+        char *why;
+        va_list args;
+        va_start(args, fmt);
+        why = vstrdupf(fmt, args);
+        va_end(args);
+        printf("1..0 ");
+        note("SKIP %s\n", why);
+        exit(0);
+    }
+    if (tests != NO_PLAN) {
+        printf("1..%d\n", tests);
+    }
 }
 
 int

@@ -51,6 +51,8 @@ FUNCTIONS
 
 -   plan(tests)
 -   plan(NO_PLAN)
+-   plan(SKIP_ALL);
+-   plan(SKIP_ALL, fmt, ...)
 
     Use this to start a series of tests. When you know how many tests there
     will be, you can put a number as a number of tests you expect to run. If
@@ -59,6 +61,8 @@ FUNCTIONS
     message similar to the following will appear in the output:
 
         1..5
+
+    If you pass it SKIP_ALL, the whole test will be skipped.
 
 -   ok(test)
 -   ok(test, fmt, ...)
