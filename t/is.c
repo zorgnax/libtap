@@ -21,5 +21,5 @@ int main () {
     isnt("this", NULL, "this isnt null");
     isnt("foo\nfoo\nfoo", "bar\nbar\nbar");
     isnt("foo\nfoo\nfoo", "foo\nfoo\nfoo"); /* bang */
-    done_testing;
+    done_testing();
 }

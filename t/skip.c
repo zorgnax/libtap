@@ -19,6 +19,6 @@ int main () {
     skip(1, 1);
     ok(0, "blurgle");
     endskip;
-    done_testing;
+    done_testing();
 }
 

@@ -12,6 +12,6 @@ int main () {
     cmp_ok(55, "+", -55);
     cmp_ok(23, "%", 5);
     cmp_ok(55, "%", 5);
-    done_testing;
+    done_testing();
 }
 

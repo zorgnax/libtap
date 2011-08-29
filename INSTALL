@@ -29,7 +29,7 @@ and tap.h there and it shouldn't have a problem compiling.
     int main () {
         plan(1);
         ok(50 + 5, "foo %s", "bar");
-        done_testing;
+        done_testing();
     }
     $ gcc test.c tap.c
     $ a.out

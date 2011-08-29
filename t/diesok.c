@@ -10,6 +10,6 @@ int main () {
     dies_ok(
         {printf("stdout\n"); fprintf(stderr, "stderr\n"); abort();},
         "supress output");
-    done_testing;
+    done_testing();
 }
 
