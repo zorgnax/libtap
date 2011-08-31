@@ -18,7 +18,7 @@ ifdef GNU
 else
 	CC = cl /nologo
 	ALLCFLAGS = /Wall /wd4255 /wd4996 /wd4127 /wd4820 \
-			    /wd4100 /wd4619 /wd4514 /wd4668 $(CFLAGS)
+		    /wd4100 /wd4619 /wd4514 /wd4668 $(CFLAGS)
 	DEBUG = /Zi
 	CCFLAGS = /c
 	CCOUT = /Fo

@@ -173,9 +173,10 @@ vdiag_to_fh (FILE *fh, const char *fmt, va_list args) {
         if (!c || c == '\n') {
             mesg[i] = '\0';
             fprintf(fh, "# %s\n", line);
-            if (!c) break;
+            if (!c)
+                break;
             mesg[i] = c;
-            line = &mesg[i+1];
+            line = mesg + i + 1;
         }
     }
     free(mesg);
