@@ -17,7 +17,7 @@ And you should have perl to run the tests although this isnt
 absolutely necessary. Once this is done, you should be able to
 run the following:
 
-    > make GNU=
+    > make -f Makefile.win
     > make check
 
 Alternatively, you might want to use the visual studio project file

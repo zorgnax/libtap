@@ -1,30 +1,53 @@
-include config.mk
+CFLAGS = -g -Wall -I.
+CC = gcc
+TESTS = $(patsubst %.c, %, $(wildcard t/*.c))
 
-all: $(TAPLIB)
-	$(MAKE) -C t/ all
+ifdef ANSI
+	# -D_BSD_SOURCE for MAP_ANONYMOUS
+	CFLAGS += -ansi -D_BSD_SOURCE
+	LDLIBS += -lbsd-compat
+endif
 
-$(TAPLIB): tap$(_O)
-tap$(_O): tap.c tap.h
+%:
+	$(CC) $(LDFLAGS) $(TARGET_ARCH) $(filter %.o %.a %.so, $^) $(LDLIBS) -o $@
+
+%.o:
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $(filter %.c, $^) $(LDLIBS) -o $@
+
+%.a:
+	$(AR) rcs $@ $(filter %.o, $^)
+
+%.so:
+	$(CC) -shared $(LDFLAGS) $(TARGET_ARCH) $(filter %.o, $^) $(LDLIBS) -o $@
+
+all: libtap.a tests
+
+libtap.a: tap.o
+
+tap.o: tap.c tap.h
+
+tests: $(TESTS)
+
+$(TESTS): %: %.o libtap.a
+
+$(patsubst %, %.o, $(TESTS)): %.o: %.c tap.h
 
 clean:
-	$(RM) -rv $(TAPLIB) *.o *.obj *.lib *.pdb *.ilk _C
-	$(MAKE) -C t/ clean
+	rm -rf *.o t/*.o libtap.a $(TESTS)
 
-ifdef GNU
-install: $(TAPLIB) tap.h
-	sudo cp $(TAPLIB) /usr/lib
+install: libtap.a tap.h
+	sudo cp libtap.a /usr/lib
 	sudo cp tap.h /usr/include
 
 uninstall:
-	sudo $(RM) /usr/lib/$(TAPLIB) /usr/include/tap.h
-endif
+	sudo rm /usr/lib/libtap.a /usr/include/tap.h
 
 dist:
-	$(RM) -v libtap.zip
+	rm libtap.zip
 	zip -r libtap *
 
-check: all
+check test: all
 	prove
 
-.PHONY: all clean install uninstall dist check
+.PHONY: all clean install uninstall dist check test tests
 
