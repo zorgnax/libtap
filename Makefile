@@ -23,7 +23,7 @@ dist:
 	$(RM) -v libtap.zip
 	zip -r libtap *
 
-check:
+check: all
 	prove
 
 .PHONY: all clean install uninstall dist check
