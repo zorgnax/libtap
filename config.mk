@@ -3,6 +3,11 @@ MAKE = make
 CFLAGS = $(DEBUG)
 ifdef GNU
 	ALLCFLAGS = -Wall $(CFLAGS)
+	ifdef ANSI
+	    # -D_BSD_SOURCE for MAP_ANONYMOUS
+		ALLCFLAGS += -ansi -D_BSD_SOURCE
+		LDLIBS += -lbsd-compat
+	endif
 	DEBUG = -g
 	CCFLAGS = -c
 	CCOUT = -o
@@ -33,7 +38,7 @@ else
 	DYNAMICLIB.o = lib /nologo /out:$@ $(filter %$(_O), $^)
 endif
 COMPILE.c = $(CC) $(CCFLAGS) $(CPPFLAGS) $(ALLCFLAGS) $(CCOUT)$@ $(filter %.c, $^)
-LINK.o = $(CC) $(ALLCFLAGS) $(CLOUT)$@ $(filter %$(_O) %.a %.so %.lib %.dll, $^) $(LDFLAGS)
+LINK.o = $(CC) $(ALLCFLAGS) $(CLOUT)$@ $(filter %$(_O) %.a %.so %.lib %.dll, $^) $(LDFLAGS) $(LDLIBS)
 
 %$(_X):; $(LINK.o)
 %$(_A):; $(STATICLIB.o)
