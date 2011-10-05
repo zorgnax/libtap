@@ -293,6 +293,7 @@ like_at_loc (int for_match, const char *file, int line, const char *got,
 {
     int test;
     regex_t re;
+    va_list args;
     int err = regcomp(&re, expected, REG_EXTENDED);
     if (err) {
         char errbuf[256];
@@ -304,7 +305,6 @@ like_at_loc (int for_match, const char *file, int line, const char *got,
     err = regexec(&re, got, 0, NULL, 0);
     regfree(&re);
     test = for_match ? !err : err;
-    va_list args;
     va_start(args, fmt);
     vok_at_loc(file, line, test, fmt, args);
     va_end(args);
