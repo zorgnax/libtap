@@ -80,8 +80,10 @@ int     like_at_loc     (int for_match, const char *file, int line,
 int tap_test_died (int status);
 #define dies_ok_common(for_death, code, ...)                \
     do {                                                    \
+        int cpid;                                           \
+        int it_died;                                        \
         tap_test_died(1);                                   \
-        int cpid = fork();                                  \
+        cpid = fork();                                      \
         switch (cpid) {                                     \
         case -1:                                            \
             perror("fork error");                           \
@@ -97,7 +99,7 @@ int tap_test_died (int status);
             perror("waitpid error");                        \
             exit(1);                                        \
         }                                                   \
-        int it_died = tap_test_died(0);                     \
+        it_died = tap_test_died(0);                         \
         if (!it_died)                                       \
             {code}                                          \
         ok(for_death ? it_died : !it_died, "" __VA_ARGS__); \
