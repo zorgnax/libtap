@@ -271,6 +271,12 @@ cendtodo () {
 #define MAP_ANONYMOUS MAP_ANON
 #endif
 
+#include <sys/param.h>
+#ifdef BSD
+#include <sys/mman.h>
+#define MAP_ANONYMOUS MAP_ANON
+#endif
+
 /* Create a shared memory int to keep track of whether a piece of code executed
 dies. to be used in the dies_ok and lives_ok macros  */
 int
