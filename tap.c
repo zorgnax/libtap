@@ -265,15 +265,10 @@ cendtodo () {
 
 #ifndef _WIN32
 #include <sys/mman.h>
+#include <sys/param.h>
 #include <regex.h>
 
-#ifdef __APPLE__
-#define MAP_ANONYMOUS MAP_ANON
-#endif
-
-#include <sys/param.h>
-#ifdef BSD
-#include <sys/mman.h>
+#if defined __APPLE__ || defined BSD
 #define MAP_ANONYMOUS MAP_ANON
 #endif
 
