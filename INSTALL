@@ -6,7 +6,7 @@ To install libtap on a unix-like system:
 
 To compile with gcc -ansi, run
 
-	$ make ANSI=1
+    $ make ANSI=1
 
 On Windows, the library can be created by first setting up
 the correct development environment variables. Usually this
