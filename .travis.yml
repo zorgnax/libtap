@@ -1,0 +1,9 @@
+language: erlang # no C/shell language support; use least-loaded worker(s)
+
+before_install: sudo apt-get install -y libtest-differences-perl
+
+install: make install
+
+script: make test
+
+after_script: make uninstall
