@@ -180,15 +180,15 @@ END
 eq_or_diff ~~`t/synopsis$x 2>&1`, <<'END', "synopsis";
 1..5
 ok 1
-not ok 2
-#   Failed test at t/synopsis.c line 10.
+not ok 2 - two different strings not that way?
+#   Failed test 'two different strings not that way?'
+#   at t/synopsis.c line 7.
 #          got: 'fnord'
 #     expected: 'eek'
-ok 3 - foo <= 8732
-ok 4 - is like
-not ok 5 - foo is greater than ten
-#   Failed test 'foo is greater than ten'
-#   at t/synopsis.c line 13.
+ok 3 - 3 <= 8732
+ok 4
+not ok 5
+#   Failed test at t/synopsis.c line 10.
 #     3
 #         >=
 #     10

@@ -8,16 +8,13 @@ SYNOPSIS
 
     #include <tap.h>
 
-    int   foo () {return 3;}
-    char *bar () {return "fnord";}
-
     int main () {
         plan(5);
-        ok(foo() == 3);
-        is(bar(), "eek");
-        ok(foo() <= 8732, "foo <= %d", 8732);
-        like(bar(), "f(yes|no)r*[a-f]$", "is like");
-        cmp_ok(foo(), ">=", 10, "foo is greater than ten");
+        ok(3 == 3);
+        is("fnord", "eek", "two different strings not that way?");
+        ok(3 <= 8732, "%d <= %d", 3, 8732);
+        like("fnord", "f(yes|no)r*[a-f]$");
+        cmp_ok(3, ">=", 10);
         done_testing();
     }
 
@@ -25,15 +22,15 @@ results in:
 
     1..5
     ok 1
-    not ok 2
-    #   Failed test at synopsis.c line 9.
+    not ok 2 - two different strings not that way?
+    #   Failed test 'two different strings not that way?'
+    #   at t/synopsis.c line 7.
     #          got: 'fnord'
     #     expected: 'eek'
-    ok 3 - foo <= 8732
-    ok 4 - is like
-    not ok 5 - foo is greater than ten
-    #   Failed test 'foo is greater than ten'
-    #   at synopsis.c line 12.
+    ok 3 - 3 <= 8732
+    ok 4
+    not ok 5
+    #   Failed test at t/synopsis.c line 10.
     #     3
     #         >=
     #     10
