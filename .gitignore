@@ -1,2 +1,14 @@
+*.a
+*.o
 *.sw?
 
+# compiled tests
+/t/cmpok
+/t/diesok
+/t/is
+/t/like
+/t/notediag
+/t/simple
+/t/skip
+/t/synopsis
+/t/todo
