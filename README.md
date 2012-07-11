@@ -88,8 +88,8 @@ FUNCTIONS
 
 -   is(got, expected)
 -   is(got, expected, fmt, ...)
--   isnt(got, expected)
--   isnt(got, expected, fmt, ...)
+-   isnt(got, unexpected)
+-   isnt(got, unexpected, fmt, ...)
 
     Tests that the string you got is what you expected. with isnt, it is the
     reverse.
@@ -123,8 +123,8 @@ FUNCTIONS
 
 -   like(got, expected)
 -   like(got, expected, fmt, ...)
--   unlike(got, expected)
--   unlike(got, expected, fmt, ...)
+-   unlike(got, unexpected)
+-   unlike(got, unexpected, fmt, ...)
 
     Tests that the string you got matches the expected extended POSIX regex.
     unlike is the reverse. These macros are the equivalent of a skip on
