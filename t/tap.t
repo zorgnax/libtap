@@ -6,7 +6,13 @@ use Test::Differences;
 
 my $x = $^O eq 'MSWin32' ? ".exe" : "";
 
-eq_or_diff ~~`t/cmpok$x 2>&1`, <<'END', "cmp_ok";
+sub cmd_eq_or_diff {
+    my ($command, $expected) = @_;
+    my $output = `$command$x 2>&1`;
+    eq_or_diff($output, $expected, $command);
+}
+
+cmd_eq_or_diff "t/cmpok", <<END;
 1..9
 not ok 1
 #   Failed test at t/cmpok.c line 6.
@@ -46,7 +52,7 @@ not ok 9
 # Looks like you failed 6 tests of 9 run.
 END
 
-eq_or_diff ~~`t/diesok$x 2>&1`, <<'END', "dies_ok";
+cmd_eq_or_diff "t/diesok", <<END;
 1..5
 ok 1 - sanity
 ok 2 - can't divide by zero
@@ -55,7 +61,7 @@ ok 4 - abort kills the program
 ok 5 - supress output
 END
 
-eq_or_diff ~~`t/is$x 2>&1`, <<'END', "is";
+cmd_eq_or_diff "t/is", <<END;
 1..18
 not ok 1 - this is that
 #   Failed test 'this is that'
@@ -116,21 +122,21 @@ not ok 18
 # Looks like you failed 9 tests of 18 run.
 END
 
-eq_or_diff ~~`t/like$x 2>&1`, <<'END', "like";
+cmd_eq_or_diff "t/like", <<END;
 1..3
 ok 1 - strange ~~ /range/
 ok 2 - strange !~~ /anger/
 ok 3 - matches the regex
 END
 
-eq_or_diff ~~`t/notediag$x 2>&1`, <<'END', "note and diag";
+cmd_eq_or_diff "t/notediag", <<END;
 # note no new line
 # note new line
 # diag no new line
 # diag new line
 END
 
-eq_or_diff ~~`t/simple$x 2>&1`, <<'END', "simple";
+cmd_eq_or_diff "t/simple", <<END;
 1..24
 ok 1
 ok 2
@@ -165,7 +171,7 @@ not ok 24 - bad
 # Looks like you failed 4 tests of 24 run.
 END
 
-eq_or_diff ~~`t/skip$x 2>&1`, <<'END', "skip";
+cmd_eq_or_diff "t/skip", <<END;
 1..8
 ok 1 - quux
 ok 2 - thud
@@ -177,7 +183,7 @@ ok 7 - wombat
 ok 8 # skip 
 END
 
-eq_or_diff ~~`t/synopsis$x 2>&1`, <<'END', "synopsis";
+cmd_eq_or_diff "t/synopsis", <<END;
 1..5
 ok 1
 not ok 2 - two different strings not that way?
@@ -195,7 +201,7 @@ not ok 5
 # Looks like you failed 2 tests of 5 run.
 END
 
-eq_or_diff ~~`t/todo$x 2>&1`, <<'END', "todo";
+cmd_eq_or_diff "t/todo", <<END;
 1..6
 not ok 1 - foo # TODO
 #   Failed (TODO) test 'foo'
