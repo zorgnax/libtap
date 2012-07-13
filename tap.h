@@ -64,10 +64,10 @@ void    endtodof        (void);
 #define lives_ok(...)    dies_ok_common(0, __VA_ARGS__)
 
 #ifdef _WIN32
-#define like(...)        skippy(1, "like is not implemented on MSWin32")
+#define like(...)        skippy(1, "like is not implemented on Windows")
 #define unlike           like
 #define dies_ok_common(...) \
-    skippy(1, "Death detection is not supported on MSWin32")
+                         skippy(1, "Death detection is not supported on Windows")
 #else
 #define like(...)        like_at_loc(1, __FILE__, __LINE__, __VA_ARGS__, NULL)
 #define unlike(...)      like_at_loc(0, __FILE__, __LINE__, __VA_ARGS__, NULL)
