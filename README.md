@@ -198,16 +198,16 @@ FUNCTIONS
 
 -   skip(test, n)
 -   skip(test, n, fmt, ...)
--   endskip
+-   end_skip
 
     Skip a series of n tests if test is true. You may give a reason why you are
     skipping them or not. The (possibly) skipped tests must occur between the
-    skip and endskip macros.
+    skip and end_skip macros.
 
         skip(TRUE, 2);
         ok(1);
         ok(0);
-        endskip;
+        end_skip;
 
     prints:
 
@@ -216,14 +216,14 @@ FUNCTIONS
 
 -   todo()
 -   todo(fmt, ...)
--   endtodo
+-   end_todo
 
     Specifies a series of tests that you expect to fail because they are not
     yet implemented.
 
         todo()
         ok(0);
-        endtodo;
+        end_todo;
 
     prints:
 

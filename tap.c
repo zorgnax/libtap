@@ -262,7 +262,7 @@ todof (int ignore, const char *fmt, ...) {
 }
 
 void
-endtodof () {
+end_todof () {
     free(todo_mesg);
     todo_mesg = NULL;
 }

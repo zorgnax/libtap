@@ -40,7 +40,7 @@ int     note            (const char *fmt, ...);
 int     exit_status     (void);
 void    skippy          (int n, const char *fmt, ...);
 void    todof           (int ignore, const char *fmt, ...);
-void    endtodof        (void);
+void    end_todof       (void);
 
 #define NO_PLAN          -1
 #define SKIP_ALL         -2
@@ -55,10 +55,10 @@ void    endtodof        (void);
 #define fail(...)        ok(0, "" __VA_ARGS__)
 
 #define skip(test, ...)  do {if (test) {skippy(__VA_ARGS__, NULL); break;}
-#define endskip          } while (0)
+#define end_skip         } while (0)
 
 #define todo(...)        todof(0, "" __VA_ARGS__, NULL)
-#define endtodo          endtodof()
+#define end_todo         end_todof()
 
 #define dies_ok(...)     dies_ok_common(1, __VA_ARGS__)
 #define lives_ok(...)    dies_ok_common(0, __VA_ARGS__)
