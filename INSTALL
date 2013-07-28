@@ -1,12 +1,21 @@
-To install libtap on a unix-like system:
+To install libtap on a unix-like system you have two ways:
 
-    $ make
-    $ make check
-    $ make install
+Use Makefile:
+
+    $ make -fMakefile.simple
+    $ make -fMakefile.simple check
+    $ make -fMakefile.siple install
 
 To compile with gcc -ansi, run
 
-    $ make ANSI=1
+    $ make ANSI=1 -fMakefile.simple
+
+Use autotools:
+
+	$ autoreconf -i
+	$ ./configure
+	$ make
+	$ make install
 
 On Windows, the library can be created by first setting up
 the correct development environment variables. Usually this

@@ -1,0 +1,9 @@
+prefix=@prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: tap
+Description: easy to read and write way of creating tests for your software
+Version: @VERSION@
+Libs: -L${libdir} -ltap
+Cflags: -I${includedir}
