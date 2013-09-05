@@ -12,22 +12,3 @@
 /t/skip
 /t/synopsis
 /t/todo
-
-# autotools
-autom4te.cache/
-configure
-Makefile
-Makefile.in
-aclocal.m4
-config.h*
-config.log
-config.status
-.auto/
-ltmain.sh
-.deps/
-.libs/
-*.la
-*.lo
-libtool
-stamp-h1
-tap.pc
