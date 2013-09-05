@@ -35,7 +35,7 @@ vstrdupf (const char *fmt, va_list args) {
 }
 
 void
-planf (int tests, const char *fmt, ...) {
+tap_plan (int tests, const char *fmt, ...) {
     expected_tests = tests;
     if (tests == SKIP_ALL) {
         char *why;
@@ -240,7 +240,7 @@ bail_out (int ignore, const char *fmt, ...) {
 }
 
 void
-skippy (int n, const char *fmt, ...) {
+tap_skip (int n, const char *fmt, ...) {
     char *why;
     va_list args;
     va_start(args, fmt);
@@ -254,7 +254,7 @@ skippy (int n, const char *fmt, ...) {
 }
 
 void
-todof (int ignore, const char *fmt, ...) {
+tap_todo (int ignore, const char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
     todo_mesg = vstrdupf(fmt, args);
@@ -262,7 +262,7 @@ todof (int ignore, const char *fmt, ...) {
 }
 
 void
-end_todof () {
+tap_end_todo () {
     free(todo_mesg);
     todo_mesg = NULL;
 }
