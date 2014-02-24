@@ -1,7 +1,7 @@
 /*
 libtap - Write tests in C
 Copyright 2012 Jake Gelbman <gelbman@gmail.com>
-This file is licensed under the GPLv2
+This file is licensed under the GPLv2 or any later version
 */
 
 #define _BSD_SOURCE 1
