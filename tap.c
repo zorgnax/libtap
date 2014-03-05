@@ -59,7 +59,9 @@ vok_at_loc (const char *file, int line, int test, const char *fmt,
             va_list args)
 {
     char *name = vstrdupf(fmt, args);
-    printf("%sok %d", test ? "" : "not ", ++current_test);
+    if (!test)
+        printf("not ");
+    printf("ok %d", ++current_test);
     if (*name)
         printf(" - %s", name);
     if (todo_mesg) {
@@ -69,12 +71,13 @@ vok_at_loc (const char *file, int line, int test, const char *fmt,
     }
     printf("\n");
     if (!test) {
+        fprintf(stderr, "#   Failed ");
+        if (todo_mesg)
+            fprintf(stderr, "(TODO) ");
+        fprintf(stderr, "test ");
         if (*name)
-            diag("  Failed%s test '%s'\n  at %s line %d.",
-                todo_mesg ? " (TODO)" : "", name, file, line);
-        else
-            diag("  Failed%s test at %s line %d.",
-                todo_mesg ? " (TODO)" : "", file, line);
+            fprintf(stderr, "'%s'\n#   ", name);
+        fprintf(stderr, "at %s line %d.\n", file, line);
         if (!todo_mesg)
             failed_tests++;
     }
