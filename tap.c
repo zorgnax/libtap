@@ -170,8 +170,8 @@ cmp_ok_at_loc (const char *file, int line, int a, const char *op, int b,
 }
 
 int
-cmp_mem_at_loc(const char *file, int line, const void *got,
-    const void *expected, size_t n, const char *fmt, ...)
+cmp_mem_at_loc (const char *file, int line, const void *got,
+                const void *expected, size_t n, const char *fmt, ...)
 {
     int test = !memcmp(got, expected, n);
     va_list args;
