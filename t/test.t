@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More tests => 10;
 use Test::Differences;
 
 my $x = $^O eq 'MSWin32' ? ".exe" : "";
@@ -50,6 +50,25 @@ not ok 9
 #         %
 #     5
 # Looks like you failed 6 tests of 9 run.
+END
+
+cmd_eq_or_diff "t/cmp_mem", <<END;
+1..4
+ok 1 - Array must be equal to itself
+not ok 2 - Arrays with different contents
+#   Failed test 'Arrays with different contents'
+#   at t/cmp_mem.c line 11.
+#     Difference starts at offset 0
+#          got: '0x0'
+#     expected: '0xff'
+not ok 3 - Arrays differ, but start the same
+#   Failed test 'Arrays differ, but start the same'
+#   at t/cmp_mem.c line 12.
+#     Difference starts at offset 2
+#          got: '0x0'
+#     expected: '0xff'
+ok 4 - Comparing 0 bytes of different arrays
+# Looks like you failed 2 tests of 4 run.
 END
 
 cmd_eq_or_diff "t/diesok", <<END;
