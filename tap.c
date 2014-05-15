@@ -169,44 +169,42 @@ cmp_ok_at_loc (const char *file, int line, int a, const char *op, int b,
     return test;
 }
 
+static int
+find_mem_diff (const char *a, const char *b, size_t n, size_t *offset) {
+    size_t i;
+    if (a == b)
+        return 0;
+    if (!a || !b)
+        return 2;
+    for (i = 0; i < n; i++) {
+        if (a[i] != b[i]) {
+            *offset = i;
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int
 cmp_mem_at_loc (const char *file, int line, const void *got,
                 const void *expected, size_t n, const char *fmt, ...)
 {
-    int i = 0;
-    int test = 1;   /* assume success */
-
-    if ((got == NULL) || (expected == NULL)) {
-        test = 0;
-    }
-    else if (got != expected) {
-        /* got and expected point to different memory: compare byte per byte */
-        for (i = 0; i < n; ++i) {
-            if (((char *)got)[i] != ((char *)expected)[i]) {
-                test = 0;
-                break;
-            }
-        }
-    }
-
+    size_t offset;
+    int diff = find_mem_diff(got, expected, n, &offset);
     va_list args;
     va_start(args, fmt);
-    vok_at_loc(file, line, test, fmt, args);
+    vok_at_loc(file, line, !diff, fmt, args);
     va_end(args);
-    if (!test) {
-
-        if ((got == NULL) || (expected == NULL)) {
-            diag("    got and/or expected are NULL");
-            diag("         got: %s", got ? "not NULL" : "NULL");
-            diag("    expected: %s", expected ? "not NULL" : "NULL");
-        }
-        else {
-            diag("    Difference starts at offset %d", i);
-            diag("         got: 0x%02x", ((unsigned char *)got)[i]);
-            diag("    expected: 0x%02x", ((unsigned char *)expected)[i]);
-        }
+    if (diff == 1) {
+        diag("    Difference starts at offset %d", offset);
+        diag("         got: 0x%02x", ((unsigned char *)got)[offset]);
+        diag("    expected: 0x%02x", ((unsigned char *)expected)[offset]);
     }
-    return test;
+    else if (diff == 2) {
+        diag("         got: %s", got ? "not NULL" : "NULL");
+        diag("    expected: %s", expected ? "not NULL" : "NULL");
+    }
+    return !diff;
 }
 
 static void

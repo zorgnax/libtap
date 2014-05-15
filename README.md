@@ -122,7 +122,7 @@ FUNCTIONS
 -   cmp_mem(got, expected, n, fmt, ...)
 
     Tests that the first n bytes of the memory you got is what you expected.
-    NULL pointers for got and expected are handled (if either or both are NULL,
+    NULL pointers for got and expected are handled (if either is NULL,
     the test fails), but you need to ensure n is not too large.
 
         char *a = "foo";
