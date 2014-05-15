@@ -122,8 +122,8 @@ FUNCTIONS
 -   cmp_mem(got, expected, n, fmt, ...)
 
     Tests that the first n bytes of the memory you got is what you expected.
-    You have to take care that the pointers are valid and n is not greater than
-    the the amount of memory allocated for either got or expected.
+    NULL pointers for got and expected are handled (if either or both are NULL,
+    the test fails), but you need to ensure n is not too large.
 
         char *a = "foo";
         char *b = "bar";
@@ -134,8 +134,8 @@ FUNCTIONS
         not ok 1
         #   Failed test at t/cmp_mem.c line 9.
         #     Difference starts at offset 0
-        #          got: '0x66'
-        #     expected: '0x62'
+        #          got: 0x66
+        #     expected: 0x62
 
 -   like(got, expected)
 -   like(got, expected, fmt, ...)
