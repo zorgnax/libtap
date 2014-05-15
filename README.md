@@ -137,6 +137,25 @@ FUNCTIONS
         #          got: 0x66
         #     expected: 0x62
 
+-   cmp_mem_lit(got, (a, b, ...))
+-   cmp_mem_lit(got, (a, b, ...), fmt, ...)
+
+    Compares a memory region to a literal array. got must be a pointer and if
+    it is NULL, the test fails. (a, b, ...) is a list of integers <= 255 and
+    specify the expected byte values. The list must be in parentheses.
+    The length of the expected list is the number of bytes that are compared.
+
+        unsigned char a[] = { 0, 0xff };
+        cmp_mem_lit(a, (0, 0xaa) );
+
+    prints
+
+        not ok 1
+        #   Failed test at t/cmp_mem_lit.c line 8.
+        #     Difference starts at offset 1
+        #          got: 0xff
+        #     expected: 0xaa
+
 -   like(got, expected)
 -   like(got, expected, fmt, ...)
 -   unlike(got, unexpected)

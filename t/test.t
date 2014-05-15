@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 11;
 use Test::Differences;
 
 my $x = $^O eq 'MSWin32' ? ".exe" : "";
@@ -87,6 +87,31 @@ not ok 7 - got == expected == NULL
 #          got: NULL
 #     expected: NULL
 # Looks like you failed 5 tests of 7 run.
+END
+
+cmd_eq_or_diff "t/cmp_mem_lit", <<END;
+1..5
+ok 1
+ok 2 - Match
+not ok 3 - Completely different
+#   Failed test 'Completely different'
+#   at t/cmp_mem_lit.c line 10.
+#     Difference starts at offset 0
+#          got: 0x00
+#     expected: 0x01
+not ok 4 - Different from 3rd byte
+#   Failed test 'Different from 3rd byte'
+#   at t/cmp_mem_lit.c line 11.
+#     Difference starts at offset 2
+#          got: 0xff
+#     expected: 0x01
+not ok 5 - got == NULL
+#   Failed test 'got == NULL'
+#   at t/cmp_mem_lit.c line 12.
+#     got and/or expected are NULL
+#          got: NULL
+#     expected: not NULL
+# Looks like you failed 3 tests of 5 run.
 END
 
 cmd_eq_or_diff "t/diesok", <<END;
