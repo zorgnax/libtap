@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 10;
+use Test::More tests => 11;
 use Test::Differences;
 
 my $x = $^O eq 'MSWin32' ? ".exe" : "";
@@ -53,22 +53,65 @@ not ok 9
 END
 
 cmd_eq_or_diff "t/cmp_mem", <<END;
-1..4
+1..7
 ok 1 - Array must be equal to itself
 not ok 2 - Arrays with different contents
 #   Failed test 'Arrays with different contents'
 #   at t/cmp_mem.c line 11.
 #     Difference starts at offset 0
-#          got: '0x0'
-#     expected: '0xff'
+#          got: 0x00
+#     expected: 0xff
 not ok 3 - Arrays differ, but start the same
 #   Failed test 'Arrays differ, but start the same'
 #   at t/cmp_mem.c line 12.
 #     Difference starts at offset 2
-#          got: '0x0'
-#     expected: '0xff'
+#          got: 0x00
+#     expected: 0xff
 ok 4 - Comparing 0 bytes of different arrays
-# Looks like you failed 2 tests of 4 run.
+not ok 5 - got == NULL
+#   Failed test 'got == NULL'
+#   at t/cmp_mem.c line 14.
+#     got and/or expected are NULL
+#          got: NULL
+#     expected: not NULL
+not ok 6 - expected == NULL
+#   Failed test 'expected == NULL'
+#   at t/cmp_mem.c line 15.
+#     got and/or expected are NULL
+#          got: not NULL
+#     expected: NULL
+not ok 7 - got == expected == NULL
+#   Failed test 'got == expected == NULL'
+#   at t/cmp_mem.c line 16.
+#     got and/or expected are NULL
+#          got: NULL
+#     expected: NULL
+# Looks like you failed 5 tests of 7 run.
+END
+
+cmd_eq_or_diff "t/cmp_mem_lit", <<END;
+1..5
+ok 1
+ok 2 - Match
+not ok 3 - Completely different
+#   Failed test 'Completely different'
+#   at t/cmp_mem_lit.c line 10.
+#     Difference starts at offset 0
+#          got: 0x00
+#     expected: 0x01
+not ok 4 - Different from 3rd byte
+#   Failed test 'Different from 3rd byte'
+#   at t/cmp_mem_lit.c line 11.
+#     Difference starts at offset 2
+#          got: 0xff
+#     expected: 0x01
+not ok 5 - got == NULL
+#   Failed test 'got == NULL'
+#   at t/cmp_mem_lit.c line 12.
+#     got and/or expected are NULL
+#          got: NULL
+#     expected: not NULL
+# Looks like you failed 3 tests of 5 run.
 END
 
 cmd_eq_or_diff "t/diesok", <<END;

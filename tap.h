@@ -51,6 +51,12 @@ void    tap_end_todo    (void);
 #define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define cmp_mem(...)     cmp_mem_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL);
+#define _strip_parens(...) __VA_ARGS__   /* helper macro */
+#define cmp_mem_lit(g, e, ...)                              \
+    do {                                                    \
+        const unsigned char e2[] = { _strip_parens e };     \
+        cmp_mem(g, e2, sizeof(e2), ##__VA_ARGS__);          \
+    } while (0)
 #define plan(...)        tap_plan(__VA_ARGS__, NULL)
 #define done_testing()   return exit_status()
 #define BAIL_OUT(...)    bail_out(0, "" __VA_ARGS__, NULL)

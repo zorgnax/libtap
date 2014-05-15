@@ -122,8 +122,8 @@ FUNCTIONS
 -   cmp_mem(got, expected, n, fmt, ...)
 
     Tests that the first n bytes of the memory you got is what you expected.
-    You have to take care that the pointers are valid and n is not greater than
-    the the amount of memory allocated for either got or expected.
+    NULL pointers for got and expected are handled (if either or both are NULL,
+    the test fails), but you need to ensure n is not too large.
 
         char *a = "foo";
         char *b = "bar";
@@ -134,8 +134,27 @@ FUNCTIONS
         not ok 1
         #   Failed test at t/cmp_mem.c line 9.
         #     Difference starts at offset 0
-        #          got: '0x66'
-        #     expected: '0x62'
+        #          got: 0x66
+        #     expected: 0x62
+
+-   cmp_mem_lit(got, (a, b, ...))
+-   cmp_mem_lit(got, (a, b, ...), fmt, ...)
+
+    Compares a memory region to a literal array. got must be a pointer and if
+    it is NULL, the test fails. (a, b, ...) is a list of integers <= 255 and
+    specify the expected byte values. The list must be in parentheses.
+    The length of the expected list is the number of bytes that are compared.
+
+        unsigned char a[] = { 0, 0xff };
+        cmp_mem_lit(a, (0, 0xaa) );
+
+    prints
+
+        not ok 1
+        #   Failed test at t/cmp_mem_lit.c line 8.
+        #     Difference starts at offset 1
+        #          got: 0xff
+        #     expected: 0xaa
 
 -   like(got, expected)
 -   like(got, expected, fmt, ...)
