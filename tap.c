@@ -59,9 +59,12 @@ vok_at_loc (const char *file, int line, int test, const char *fmt,
             va_list args)
 {
     char *name = vstrdupf(fmt, args);
-    if (!test)
-        printf("not ");
-    printf("ok %d", ++current_test);
+    if (!test) {
+      printf(AC_BAD("not ok") "  %d", ++current_test);
+    }
+    else {
+      printf(AC_OK("ok") "  %d", ++current_test);
+    }
     if (*name)
         printf(" - %s", name);
     if (todo_mesg) {
@@ -366,4 +369,3 @@ like_at_loc (int for_match, const char *file, int line, const char *got,
     return test;
 }
 #endif
-
