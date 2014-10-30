@@ -43,6 +43,16 @@ tap is an easy to read and easy to write way of creating tests for your
 software. This library creates functions that can be used to generate it for
 your C programs. It is mostly based on the Test::More Perl module.
 
+INSTALL
+=======
+
+On **Unix** systems:
+
+    $ make
+    $ make install
+
+For more detailed installation instructions (eg, for **Windows**), see `INSTALL`.
+
 FUNCTIONS
 =========
 
