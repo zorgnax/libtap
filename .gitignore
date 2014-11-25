@@ -1,5 +1,8 @@
 /t/*
 !/t/*.*
 *.a
+*.lo
 *.o
 *.sw?
+/.deps
+/.dirstamp
