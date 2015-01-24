@@ -4,9 +4,9 @@ To install libtap on a unix-like system:
     $ make check
     $ make install
 
-Note that `make check` runs Perl unit-tests, which require the
-Test::Differences module from CPAN; if you run them, make sure to install it.
-To compile with gcc -ansi, run
+Note that `make check` runs a perl unit test. It makes use of
+diff(1), so if you run it, make sure you have those tools installed
+first. To compile with gcc -ansi, run
 
     $ make ANSI=1
 
