@@ -1,5 +1,6 @@
 CFLAGS = -g -Wall -I.
 CC = gcc
+PREFIX = /usr/local
 TESTS = $(patsubst %.c, %, $(wildcard t/*.c))
 
 ifdef ANSI
@@ -36,11 +37,11 @@ clean:
 	rm -rf *.o t/*.o libtap.a $(TESTS)
 
 install: libtap.a tap.h
-	sudo cp libtap.a /usr/lib
-	sudo cp tap.h /usr/include
+	install -c libtap.a $(PREFIX)/lib
+	install -c tap.h $(PREFIX)/include
 
 uninstall:
-	sudo rm /usr/lib/libtap.a /usr/include/tap.h
+	rm $(PREFIX)/lib/libtap.a $(PREFIX)/include/tap.h
 
 dist:
 	rm libtap.zip

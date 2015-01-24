@@ -10,6 +10,11 @@ To compile with gcc -ansi, run
 
     $ make ANSI=1
 
+To install to a different directory than /usr/local, supply the
+PREFIX variable to make:
+
+    $ make PREFIX=/usr install
+
 On Windows, the library can be created by first setting up
 the correct development environment variables. Usually this
 is done by running vcvars32.bat included in the visual studio
