@@ -18,18 +18,20 @@ endif
 %.a:
 	$(AR) rcs $@ $(filter %.o, $^)
 
-%.so: tap.o
+%.so:
 	$(CC) -shared $(LDFLAGS) $(TARGET_ARCH) $(filter %.o, $^) $(LDLIBS) -o $@
 
-all: libtap.a tests
+all: libtap.a libtap.so tests
 
 libtap.a: tap.o
+
+libtap.so: tap.o
 
 tap.o: tap.c tap.h
 
 tests: $(TESTS)
 
-$(TESTS): %: %.o libtap.a
+$(TESTS): %: %.o libtap.so
 
 $(patsubst %, %.o, $(TESTS)): %.o: %.c tap.h
 
@@ -38,9 +40,9 @@ clean:
 
 install: libtap.a tap.h libtap.so
 	mkdir -p $(PREFIX)/lib $(PREFIX)/include
-	install -D libtap.a $(PREFIX)/lib
-	install -D libtap.so $(PREFIX)/lib
-	install -D tap.h $(PREFIX)/include
+	install -c libtap.a $(PREFIX)/lib
+	install -c libtap.so $(PREFIX)/lib
+	install -c tap.h $(PREFIX)/include
 
 uninstall:
 	rm $(PREFIX)/lib/libtap.a $(PREFIX)/lib/libtap.so $(PREFIX)/include/tap.h
