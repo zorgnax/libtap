@@ -1,6 +1,6 @@
-CFLAGS = -g -Wall -I.
+CFLAGS = -g -Wall -I. -fPIC
 CC = gcc
-PREFIX = /usr/local
+PREFIX = $(DESTDIR)/usr/local
 TESTS = $(patsubst %.c, %, $(wildcard t/*.c))
 
 ifdef ANSI
@@ -18,7 +18,7 @@ endif
 %.a:
 	$(AR) rcs $@ $(filter %.o, $^)
 
-%.so:
+%.so: tap.o
 	$(CC) -shared $(LDFLAGS) $(TARGET_ARCH) $(filter %.o, $^) $(LDLIBS) -o $@
 
 all: libtap.a tests
@@ -34,14 +34,16 @@ $(TESTS): %: %.o libtap.a
 $(patsubst %, %.o, $(TESTS)): %.o: %.c tap.h
 
 clean:
-	rm -rf *.o t/*.o libtap.a $(TESTS)
+	rm -rf *.o t/*.o libtap.a libtap.so $(TESTS)
 
-install: libtap.a tap.h
-	install -c libtap.a $(PREFIX)/lib
-	install -c tap.h $(PREFIX)/include
+install: libtap.a tap.h libtap.so
+	mkdir -p $(PREFIX)/lib $(PREFIX)/include
+	install -D libtap.a $(PREFIX)/lib
+	install -D libtap.so $(PREFIX)/lib
+	install -D tap.h $(PREFIX)/include
 
 uninstall:
-	rm $(PREFIX)/lib/libtap.a $(PREFIX)/include/tap.h
+	rm $(PREFIX)/lib/libtap.a $(PREFIX)/lib/libtap.so $(PREFIX)/include/tap.h
 
 dist:
 	rm libtap.zip
