@@ -5,6 +5,8 @@
 *.a
 *.lo
 *.o
+*.so
+usr/
 *.sw?
 /.deps
 /.dirstamp
