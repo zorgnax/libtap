@@ -20,15 +20,12 @@ the correct development environment variables. Usually this
 is done by running vcvars32.bat included in the visual studio
 distribution. You should also install gnu make which can be
 found at http://gnuwin32.sourceforge.net/packages/make.htm.
-And you should have perl to run the tests although this isnt
+And you should have perl to run the tests although this isn't
 absolutely necessary. Once this is done, you should be able to
 run the following:
 
     > make -f Makefile.win
     > make check
-
-Alternatively, you might want to use the visual studio project file
-included by Alexander Kahl (e-user).
 
 If you want to use it directly in another project, you can copy tap.c
 and tap.h there and it shouldn't have a problem compiling.
