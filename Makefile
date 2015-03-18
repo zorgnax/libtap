@@ -31,7 +31,7 @@ tap.o: tap.c tap.h
 
 tests: $(TESTS)
 
-$(TESTS): %: %.o libtap.so
+$(TESTS): %: %.o libtap.a
 
 $(patsubst %, %.o, $(TESTS)): %.o: %.c tap.h
 
@@ -52,7 +52,7 @@ dist:
 	zip -r libtap *
 
 check test: all
-	prove
+	perl t/test.t
 
 .PHONY: all clean install uninstall dist check test tests
 
