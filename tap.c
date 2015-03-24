@@ -257,15 +257,12 @@ exit_status () {
     else if (current_test != expected_tests) {
         diag("Looks like you planned %d test%s but ran %d.",
             expected_tests, expected_tests > 1 ? "s" : "", current_test);
-        retval = 255;
+        retval = 2;
     }
     if (failed_tests) {
         diag("Looks like you failed %d test%s of %d run.",
             failed_tests, failed_tests > 1 ? "s" : "", current_test);
-        if (expected_tests == NO_PLAN)
-            retval = failed_tests;
-        else
-            retval = expected_tests - current_test + failed_tests;
+        retval = 1;
     }
     return retval;
 }

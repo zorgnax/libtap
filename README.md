@@ -199,10 +199,9 @@ FUNCTIONS
 
         # Looks like you failed 2 tests of 3 run.
 
-    If all planned tests were successful, it will return 0. If any test fails,
-    it will return the number of failed tests (including ones that were
-    missing). If they all passed, but there were missing tests, it will return
-    255.
+    If all planned tests were successful, it will return 0. If any
+    test fails, it will return 1. If they all passed, but there
+    were missing tests, it will return 2.
 
 -   note(fmt, ...)
 -   diag(fmt, ...)
