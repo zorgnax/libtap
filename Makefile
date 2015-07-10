@@ -21,7 +21,10 @@ endif
 %.so:
 	$(CC) -shared $(LDFLAGS) $(TARGET_ARCH) $(filter %.o, $^) $(LDLIBS) -o $@
 
+all: libtap.a libtap.so tap.pc tests
+
 tap.pc:
+	@echo generating tap.pc
 	@echo 'prefix='$(PREFIX) > tap.pc
 	@echo 'exec_prefix=$${prefix}' >> tap.pc
 	@echo 'libdir=$${prefix}/lib' >> tap.pc
@@ -33,8 +36,6 @@ tap.pc:
 	@echo 'URL: https://github.com/zorgnax/libtap' >> tap.pc
 	@echo 'Libs: -L$${libdir} -ltap' >> tap.pc
 	@echo 'Cflags: -I$${includedir}' >> tap.pc
-
-all: libtap.a libtap.so tap.pc tests
 
 libtap.a: tap.o
 
