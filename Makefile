@@ -21,7 +21,20 @@ endif
 %.so:
 	$(CC) -shared $(LDFLAGS) $(TARGET_ARCH) $(filter %.o, $^) $(LDLIBS) -o $@
 
-all: libtap.a libtap.so tests
+tap.pc:
+	@echo 'prefix='$(PREFIX) > tap.pc
+	@echo 'exec_prefix=$${prefix}' >> tap.pc
+	@echo 'libdir=$${prefix}/lib' >> tap.pc
+	@echo 'includedir=$${prefix}/include' >> tap.pc
+	@echo '' >> tap.pc
+	@echo 'Name: libtap' >> tap.pc
+	@echo 'Description: Write tests in C' >> tap.pc
+	@echo 'Version: 0.1.0' >> tap.pc
+	@echo 'URL: https://github.com/zorgnax/libtap' >> tap.pc
+	@echo 'Libs: -L$${libdir} -ltap' >> tap.pc
+	@echo 'Cflags: -I$${includedir}' >> tap.pc
+
+all: libtap.a libtap.so tap.pc tests
 
 libtap.a: tap.o
 
@@ -36,12 +49,13 @@ $(TESTS): %: %.o libtap.a
 $(patsubst %, %.o, $(TESTS)): %.o: %.c tap.h
 
 clean:
-	rm -rf *.o t/*.o libtap.a libtap.so $(TESTS)
+	rm -rf *.o t/*.o tap.pc libtap.a libtap.so $(TESTS)
 
-install: libtap.a tap.h libtap.so
-	mkdir -p $(PREFIX)/lib $(PREFIX)/include
+install: libtap.a tap.h libtap.so tap.pc
+	mkdir -p $(PREFIX)/lib $(PREFIX)/include $(PREFIX)/lib/pkgconfig
 	install -c libtap.a $(PREFIX)/lib
 	install -c libtap.so $(PREFIX)/lib
+	install -c tap.pc $(PREFIX)/lib/pkgconfig
 	install -c tap.h $(PREFIX)/include
 
 uninstall:
