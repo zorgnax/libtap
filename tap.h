@@ -7,6 +7,7 @@ This file is licensed under the LGPL
 #ifndef __TAP_H__
 #define __TAP_H__
 
+#ifdef TAP_COLOR_OUTPUT
 #define AC_RED     "\x1b[31m"
 #define AC_GREEN   "\x1b[32m"
 #define AC_YELLOW  "\x1b[33m"
@@ -18,6 +19,10 @@ This file is licensed under the LGPL
 #define AC_CLR(color, text) AC_##color text AC_RESET
 #define AC_OK(text) AC_CLR(GREEN, text)
 #define AC_BAD(text) AC_CLR(RED, text)
+#else
+#define AC_OK(text) text
+#define AC_BAD(text) text
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -126,4 +131,3 @@ int tap_test_died (int status);
 #endif
 
 #endif
-
