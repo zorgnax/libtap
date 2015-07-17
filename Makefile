@@ -71,6 +71,6 @@ dist:
 	zip -r libtap *
 
 check test: all
-	perl t/test.t
+	./t/test
 
 .PHONY: all clean install uninstall dist check test tests
