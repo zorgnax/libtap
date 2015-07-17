@@ -9,10 +9,6 @@ ifdef ANSI
 	LDLIBS += -lbsd-compat
 endif
 
-ifdef TAP_COLOR_OUTPUT
-	CFLAGS += -DTAP_COLOR_OUTPUT
-endif
-
 %:
 	$(CC) $(LDFLAGS) $(TARGET_ARCH) $(filter %.o %.a %.so, $^) $(LDLIBS) -o $@
 
