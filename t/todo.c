@@ -1,7 +1,6 @@
 #include "tap.h"
 
 int main () {
-    setvbuf(stdout, NULL, _IONBF, 0);
     plan(6);
     todo();
     ok(0, "foo");

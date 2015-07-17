@@ -1,7 +1,6 @@
 #include "tap.h"
 
 int main () {
-    setvbuf(stdout, NULL, _IONBF, 0);
     plan(5);
     ok(3 == 3);
     is("fnord", "eek", "two different strings not that way?");
