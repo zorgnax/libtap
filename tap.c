@@ -60,10 +60,10 @@ vok_at_loc (const char *file, int line, int test, const char *fmt,
 {
     char *name = vstrdupf(fmt, args);
     if (!test) {
-      printf(AC_BAD("not ok") "  %d", ++current_test);
+        printf(AC_BAD("not ok") " %d", ++current_test);
     }
     else {
-      printf(AC_OK("ok") "  %d", ++current_test);
+        printf(AC_OK("ok") " %d", ++current_test);
     }
     if (*name)
         printf(" - %s", name);
