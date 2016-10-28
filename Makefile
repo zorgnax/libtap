@@ -1,5 +1,5 @@
-CFLAGS = -g -Wall -I. -fPIC
-CC = gcc
+CFLAGS += -g -Wall -I. -fPIC
+CC ?= gcc
 PREFIX = $(DESTDIR)/usr/local
 TESTS = $(patsubst %.c, %, $(wildcard t/*.c))
 
