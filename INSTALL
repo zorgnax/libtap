@@ -8,12 +8,12 @@ Note that `make check` makes use of diff(1), so if you run it, make
 sure you have those tools installed first. To compile with gcc
 -ansi, run:
 
-    $ make ANSI=1
+    $ ANSI=1 make
 
 To install to a different directory than /usr/local, supply the
 PREFIX variable to make:
 
-    $ make PREFIX=/usr install
+    $ PREFIX=/usr make install
 
 On Windows, the library can be created by first setting up the
 correct development environment variables. Usually this is done by

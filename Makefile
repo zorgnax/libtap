@@ -1,6 +1,6 @@
-CFLAGS += -g -Wall -I. -fPIC
 CC ?= gcc
-PREFIX = $(DESTDIR)/usr/local
+CFLAGS += -Wall -I. -fPIC
+PREFIX ?= $(DESTDIR)/usr/local
 TESTS = $(patsubst %.c, %, $(wildcard t/*.c))
 
 ifdef ANSI
