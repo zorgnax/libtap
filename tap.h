@@ -49,7 +49,7 @@ void    tap_end_todo    (void);
 #define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define cmp_mem(...)     cmp_mem_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL);
+#define cmp_mem(...)     cmp_mem_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define plan(...)        tap_plan(__VA_ARGS__, NULL)
 #define done_testing()   return exit_status()
 #define BAIL_OUT(...)    bail_out(0, "" __VA_ARGS__, NULL)
