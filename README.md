@@ -39,9 +39,12 @@ results in:
 DESCRIPTION
 ===========
 
-tap is an easy to read and easy to write way of creating tests for your
-software. This library creates functions that can be used to generate it for
-your C programs. It is mostly based on the Test::More Perl module.
+tap is an easy to read and easy to write way of creating tests for
+your software. This library creates functions that can be used to
+generate it for your C programs. It is implemented using macros
+that include file and line info automatically, and makes it so that
+the format message of each test is optional. It is mostly based on
+the Test::More Perl module.
 
 INSTALL
 =======
