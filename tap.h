@@ -43,13 +43,23 @@ void    tap_skip        (int n, const char *fmt, ...);
 void    tap_todo        (int ignore, const char *fmt, ...);
 void    tap_end_todo    (void);
 
+#ifdef USE_AUTO_PLAN
+#define THROWAWAY_(...)
+#define THROWAWAY(...) THROWAWAY_(__VA_ARGS__)
+#define AUTO_PLAN __COUNTER__
+#define AUTO_PLAN_INC() THROWAWAY(__COUNTER__)
+#else /* !USE_AUTO_PLAN */
+#define AUTO_PLAN_INC()
+#endif /* /USE_AUTO_PLAN */
+
+
 #define NO_PLAN          -1
 #define SKIP_ALL         -2
-#define ok(...)          ok_at_loc(__FILE__, __LINE__, (int) __VA_ARGS__, NULL)
-#define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define cmp_mem(...)     cmp_mem_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define ok(...)          ok_at_loc(__FILE__, __LINE__, (int) __VA_ARGS__, NULL) AUTO_PLAN_INC()
+#define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL) AUTO_PLAN_INC()
+#define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL) AUTO_PLAN_INC()
+#define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL) AUTO_PLAN_INC()
+#define cmp_mem(...)     cmp_mem_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL) AUTO_PLAN_INC()
 #define plan(...)        tap_plan(__VA_ARGS__, NULL)
 #define done_testing()   return exit_status()
 #define BAIL_OUT(...)    bail_out(0, "" __VA_ARGS__, NULL)
@@ -71,8 +81,8 @@ void    tap_end_todo    (void);
 #define dies_ok_common(...) \
                          tap_skip(1, "Death detection is not supported on Windows")
 #else
-#define like(...)        like_at_loc(1, __FILE__, __LINE__, __VA_ARGS__, NULL)
-#define unlike(...)      like_at_loc(0, __FILE__, __LINE__, __VA_ARGS__, NULL)
+#define like(...)        like_at_loc(1, __FILE__, __LINE__, __VA_ARGS__, NULL) AUTO_PLAN_INC()
+#define unlike(...)      like_at_loc(0, __FILE__, __LINE__, __VA_ARGS__, NULL) AUTO_PLAN_INC()
 int     like_at_loc     (int for_match, const char *file, int line,
                          const char *got, const char *expected,
                          const char *fmt, ...);

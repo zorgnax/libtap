@@ -1,0 +1,7 @@
+1..6
+ok 1 - cmp_ok
+ok 2 - ok
+ok 3 - is
+ok 4 - isnt
+ok 5 - cmp_mem
+ok 6 - like
