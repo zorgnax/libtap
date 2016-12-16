@@ -11,6 +11,8 @@ add_library (tap
 	tap.h)
 install (TARGETS tap
 	DESTINATION lib)
+install (FILES tap.h
+	DESTINATION "include")
 
 if (LIBTAP_TESTS)
 	enable_testing ()
