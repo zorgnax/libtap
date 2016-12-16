@@ -39,9 +39,12 @@ results in:
 DESCRIPTION
 ===========
 
-tap is an easy to read and easy to write way of creating tests for your
-software. This library creates functions that can be used to generate it for
-your C programs. It is mostly based on the Test::More Perl module.
+tap is an easy to read and easy to write way of creating tests for
+your software. This library creates functions that can be used to
+generate it for your C programs. It is implemented using macros
+that include file and line info automatically, and makes it so that
+the format message of each test is optional. It is mostly based on
+the Test::More Perl module.
 
 INSTALL
 =======
@@ -199,31 +202,27 @@ FUNCTIONS
 
         # Looks like you failed 2 tests of 3 run.
 
-    If all planned tests were successful, it will return 0. If any test fails,
-    it will return the number of failed tests (including ones that were
-    missing). If they all passed, but there were missing tests, it will return
-    255.
+    If all planned tests were successful, it will return 0. If any
+    test fails, it will return 1. If they all passed, but there
+    were missing tests, it will return 2.
 
--   note(fmt, ...)
 -   diag(fmt, ...)
 
-    print out a message to the tap output. note prints to stdout and diag
-    prints to stderr. Each line is preceeded by a "# " so that you know its a
-    diagnostic message.
+    print out a message to the tap output on stdout. Each line is
+    preceeded by a "# " so that you know its a diagnostic message.
 
-        note("This is\na note\nto describe\nsomething.");
+        diag("This is\na diag\nto describe\nsomething.");
 
     prints:
 
         # This is
-        # a note
+        # a diag
         # to describe
         # something
 
-    ok() and these functions return ints so you can use them like:
+    ok() and this function return an int so you can use it like:
 
-        ok(1) && note("yo!");
-        ok(0) || diag("I have no idea what just happened");
+        ok(0) || diag("doh!");
 
 -   skip(test, n)
 -   skip(test, n, fmt, ...)

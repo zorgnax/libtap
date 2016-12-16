@@ -1,7 +1,7 @@
 /*
 libtap - Write tests in C
 Copyright 2012 Jake Gelbman <gelbman@gmail.com>
-This file is licensed under the GPLv2 or any later version
+This file is licensed under the LGPL
 */
 
 #ifndef __TAP_H__
@@ -38,7 +38,6 @@ int     cmp_mem_at_loc  (const char *file, int line, const void *got,
 int     bail_out        (int ignore, const char *fmt, ...);
 void    tap_plan        (int tests, const char *fmt, ...);
 int     diag            (const char *fmt, ...);
-int     note            (const char *fmt, ...);
 int     exit_status     (void);
 void    tap_skip        (int n, const char *fmt, ...);
 void    tap_todo        (int ignore, const char *fmt, ...);
@@ -46,11 +45,11 @@ void    tap_end_todo    (void);
 
 #define NO_PLAN          -1
 #define SKIP_ALL         -2
-#define ok(...)          ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
+#define ok(...)          ok_at_loc(__FILE__, __LINE__, (int) __VA_ARGS__, NULL)
 #define is(...)          is_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define isnt(...)        isnt_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define cmp_ok(...)      cmp_ok_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
-#define cmp_mem(...)     cmp_mem_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL);
+#define cmp_mem(...)     cmp_mem_at_loc(__FILE__, __LINE__, __VA_ARGS__, NULL)
 #define plan(...)        tap_plan(__VA_ARGS__, NULL)
 #define done_testing()   return exit_status()
 #define BAIL_OUT(...)    bail_out(0, "" __VA_ARGS__, NULL)
@@ -114,4 +113,3 @@ int tap_test_died (int status);
 #endif
 
 #endif
-

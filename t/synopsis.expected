@@ -1,0 +1,15 @@
+1..5
+ok 1
+not ok 2 - two different strings not that way?
+#   Failed test 'two different strings not that way?'
+#   at t/synopsis.c line 6.
+#          got: 'fnord'
+#     expected: 'eek'
+ok 3 - 3 <= 8732
+ok 4
+not ok 5
+#   Failed test at t/synopsis.c line 9.
+#     3
+#         >=
+#     10
+# Looks like you failed 2 tests of 5 run.

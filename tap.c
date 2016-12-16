@@ -1,10 +1,10 @@
 /*
 libtap - Write tests in C
 Copyright 2012 Jake Gelbman <gelbman@gmail.com>
-This file is licensed under the GPLv2 or any later version
+This file is licensed under the LGPL
 */
 
-#define _BSD_SOURCE 1
+#define _DEFAULT_SOURCE 1
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,7 +46,7 @@ tap_plan (int tests, const char *fmt, ...) {
         why = vstrdupf(fmt, args);
         va_end(args);
         printf("1..0 ");
-        note("SKIP %s\n", why);
+        diag("SKIP %s\n", why);
         exit(0);
     }
     if (tests != NO_PLAN) {
@@ -59,8 +59,9 @@ vok_at_loc (const char *file, int line, int test, const char *fmt,
             va_list args)
 {
     char *name = vstrdupf(fmt, args);
-    if (!test)
+    if (!test) {
         printf("not ");
+    }
     printf("ok %d", ++current_test);
     if (*name)
         printf(" - %s", name);
@@ -71,13 +72,13 @@ vok_at_loc (const char *file, int line, int test, const char *fmt,
     }
     printf("\n");
     if (!test) {
-        fprintf(stderr, "#   Failed ");
+        printf("#   Failed ");
         if (todo_mesg)
-            fprintf(stderr, "(TODO) ");
-        fprintf(stderr, "test ");
+            printf("(TODO) ");
+        printf("test ");
         if (*name)
-            fprintf(stderr, "'%s'\n#   ", name);
-        fprintf(stderr, "at %s line %d.\n", file, line);
+            printf("'%s'\n#   ", name);
+        printf("at %s line %d.\n", file, line);
         if (!todo_mesg)
             failed_tests++;
     }
@@ -207,19 +208,21 @@ cmp_mem_at_loc (const char *file, int line, const void *got,
     return !diff;
 }
 
-static void
-vdiag_to_fh (FILE *fh, const char *fmt, va_list args) {
+int
+diag (const char *fmt, ...) {
+    va_list args;
     char *mesg, *line;
     int i;
+    va_start(args, fmt);
     if (!fmt)
-        return;
+        return 0;
     mesg = vstrdupf(fmt, args);
     line = mesg;
     for (i = 0; *line; i++) {
         char c = mesg[i];
         if (!c || c == '\n') {
             mesg[i] = '\0';
-            fprintf(fh, "# %s\n", line);
+            printf("# %s\n", line);
             if (!c)
                 break;
             mesg[i] = c;
@@ -227,23 +230,6 @@ vdiag_to_fh (FILE *fh, const char *fmt, va_list args) {
         }
     }
     free(mesg);
-    return;
-}
-
-int
-diag (const char *fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-    vdiag_to_fh(stderr, fmt, args);
-    va_end(args);
-    return 0;
-}
-
-int
-note (const char *fmt, ...) {
-    va_list args;
-    va_start(args, fmt);
-    vdiag_to_fh(stdout, fmt, args);
     va_end(args);
     return 0;
 }
@@ -257,15 +243,12 @@ exit_status () {
     else if (current_test != expected_tests) {
         diag("Looks like you planned %d test%s but ran %d.",
             expected_tests, expected_tests > 1 ? "s" : "", current_test);
-        retval = 255;
+        retval = 2;
     }
     if (failed_tests) {
         diag("Looks like you failed %d test%s of %d run.",
             failed_tests, failed_tests > 1 ? "s" : "", current_test);
-        if (expected_tests == NO_PLAN)
-            retval = failed_tests;
-        else
-            retval = expected_tests - current_test + failed_tests;
+        retval = 1;
     }
     return retval;
 }
@@ -291,7 +274,7 @@ tap_skip (int n, const char *fmt, ...) {
     va_end(args);
     while (n --> 0) {
         printf("ok %d ", ++current_test);
-        note("skip %s\n", why);
+        diag("skip %s\n", why);
     }
     free(why);
 }
@@ -369,4 +352,3 @@ like_at_loc (int for_match, const char *file, int line, const char *got,
     return test;
 }
 #endif
-

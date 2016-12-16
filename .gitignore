@@ -1,6 +1,14 @@
 /t/*
 !/t/*.*
+/t/*.exe
+/t/*.got
 *.a
+*.lo
 *.o
+*.so
+*.pc
+usr/
 *.sw?
+/.deps
+/.dirstamp
 build/
