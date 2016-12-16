@@ -11,3 +11,4 @@ usr/
 *.sw?
 /.deps
 /.dirstamp
+build/
