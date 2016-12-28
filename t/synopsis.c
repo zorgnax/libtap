@@ -2,11 +2,12 @@
 
 int main () {
     plan(5);
-    ok(3 == 3);
-    is("fnord", "eek", "two different strings not that way?");
-    ok(3 <= 8732, "%d <= %d", 3, 8732);
-    like("fnord", "f(yes|no)r*[a-f]$");
-    cmp_ok(3, ">=", 10);
+    int bronze = 1, silver = 2, gold = 3;
+    ok(bronze < silver, "bronze is less than silver");
+    ok(bronze > silver, "not quite");
+    is("gold", "gold", "gold is gold");
+    cmp_ok(silver, "<", gold, "%d <= %d", silver, gold);
+    like("platinum", ".*inum", "platinum matches .*inum");
     done_testing();
 }
 

@@ -10,31 +10,26 @@ SYNOPSIS
 
     int main () {
         plan(5);
-        ok(3 == 3);
-        is("fnord", "eek", "two different strings not that way?");
-        ok(3 <= 8732, "%d <= %d", 3, 8732);
-        like("fnord", "f(yes|no)r*[a-f]$");
-        cmp_ok(3, ">=", 10);
+        int bronze = 1, silver = 2, gold = 3;
+        ok(bronze < silver, "bronze is less than silver");
+        ok(bronze > silver, "not quite");
+        is("gold", "gold", "gold is gold");
+        cmp_ok(silver, "<", gold, "%d <= %d", silver, gold);
+        like("platinum", ".*inum", "platinum matches .*inum");
         done_testing();
     }
 
 results in:
 
     1..5
-    ok 1
-    not ok 2 - two different strings not that way?
-    #   Failed test 'two different strings not that way?'
+    ok 1 - bronze is less than silver
+    not ok 2 - not quite
+    #   Failed test 'not quite'
     #   at t/synopsis.c line 7.
-    #          got: 'fnord'
-    #     expected: 'eek'
-    ok 3 - 3 <= 8732
-    ok 4
-    not ok 5
-    #   Failed test at t/synopsis.c line 10.
-    #     3
-    #         >=
-    #     10
-    # Looks like you failed 2 tests of 5 run.
+    ok 3 - gold is gold
+    ok 4 - 2 <= 3
+    ok 5 - platinum matches .*inum
+    # Looks like you failed 1 test of 5 run.
 
 DESCRIPTION
 ===========
