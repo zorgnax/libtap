@@ -1,12 +1,10 @@
-To install libtap on a unix-like system:
+To install libtap on a Unix-like system:
 
     $ make
     $ make check
     $ make install
 
-Note that `make check` makes use of diff(1), so if you run it, make
-sure you have those tools installed first. To compile with gcc
--ansi, run:
+To compile with gcc -ansi, run:
 
     $ ANSI=1 make
 
@@ -17,7 +15,7 @@ PREFIX variable to make:
 
 On Windows, the library can be created by first setting up the
 correct development environment variables. Usually this is done by
-running vcvars32.bat included in the visual studio distribution.
+running vcvars32.bat included in the Visual Studio distribution.
 You should also install gnu make which can be found at
 http://gnuwin32.sourceforge.net/packages/make.htm. Once this is
 done, you should be able to run the following:
