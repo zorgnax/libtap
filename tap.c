@@ -214,8 +214,10 @@ diag (const char *fmt, ...) {
     char *mesg, *line;
     int i;
     va_start(args, fmt);
-    if (!fmt)
+    if (!fmt) {
+        va_end(args);
         return 0;
+    }
     mesg = vstrdupf(fmt, args);
     line = mesg;
     for (i = 0; *line; i++) {
@@ -256,6 +258,7 @@ exit_status () {
 int
 bail_out (int ignore, const char *fmt, ...) {
     va_list args;
+    (void)ignore;
     va_start(args, fmt);
     printf("Bail out!  ");
     vprintf(fmt, args);
@@ -282,6 +285,7 @@ tap_skip (int n, const char *fmt, ...) {
 void
 tap_todo (int ignore, const char *fmt, ...) {
     va_list args;
+    (void)ignore;
     va_start(args, fmt);
     todo_mesg = vstrdupf(fmt, args);
     va_end(args);
