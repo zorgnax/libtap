@@ -180,7 +180,7 @@ FUNCTIONS
     dereference it and crash.
 
         dies_ok({abort();}, "abort does close your program");
-        dies_ok({int x = 0/0;}, "divide by zero crash");
+        dies_ok({int x = 1/0;}, "divide by zero crash");
         lives_ok({pow(3.0, 5.0);}, "nothing wrong with taking 3**5");
 
     On Windows, these macros are the equivalent of a skip.
