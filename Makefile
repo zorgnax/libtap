@@ -5,8 +5,8 @@ TESTS = $(patsubst %.c, %, $(wildcard t/*.c))
 
 ifdef ANSI
 	# -D_BSD_SOURCE for MAP_ANONYMOUS
-	CFLAGS += -ansi -D_BSD_SOURCE
-	LDLIBS += -lbsd-compat
+	CFLAGS +== -ansi -D_BSD_SOURCE
+	LDLIBS +== -lbsd-compat
 endif
 
 %:
