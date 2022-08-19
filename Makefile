@@ -48,6 +48,7 @@ tests: $(TESTS)
 $(TESTS): %: %.o libtap.a
 
 $(patsubst %, %.o, $(TESTS)): %.o: %.c tap.h
+	$(CC) $(CFLAGS) -O0 $(CPPFLAGS) $(TARGET_ARCH) -c $(filter %.c, $^) $(LDLIBS) -o $@
 
 clean:
 	rm -rf *.o t/*.o tap.pc libtap.a libtap.so $(TESTS)
