@@ -10,6 +10,8 @@ This file is licensed under the LGPL
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/mman.h>
 #include "tap.h"
 
 static int expected_tests = NO_PLAN;
