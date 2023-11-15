@@ -14,6 +14,20 @@ This file is licensed under the LGPL
 #include <sys/mman.h>
 #include "tap.h"
 
+#ifndef _WIN32
+#include <sys/mman.h>
+#include <sys/param.h>
+#include <regex.h>
+
+#ifndef MAP_ANONYMOUS
+#ifdef MAP_ANON
+#define MAP_ANONYMOUS MAP_ANON
+#else
+#error "System does not support mapping anonymous pages"
+#endif
+#endif
+#endif
+
 static int expected_tests = NO_PLAN;
 static int failed_tests;
 static int current_test;
@@ -300,18 +314,6 @@ tap_end_todo () {
 }
 
 #ifndef _WIN32
-#include <sys/mman.h>
-#include <sys/param.h>
-#include <regex.h>
-
-#ifndef MAP_ANONYMOUS
-#ifdef MAP_ANON
-#define MAP_ANONYMOUS MAP_ANON
-#else
-#error "System does not support mapping anonymous pages"
-#endif
-#endif
-
 /* Create a shared memory int to keep track of whether a piece of code executed
 dies. to be used in the dies_ok and lives_ok macros.  */
 int
