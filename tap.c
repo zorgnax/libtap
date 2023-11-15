@@ -10,11 +10,10 @@ This file is licensed under the LGPL
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/mman.h>
 #include "tap.h"
 
 #ifndef _WIN32
+#include <sys/types.h>
 #include <sys/mman.h>
 #include <sys/param.h>
 #include <regex.h>
